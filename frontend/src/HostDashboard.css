@@ -1,0 +1,502 @@
+
+.host-dashboard {
+  min-height: 100vh;
+  background: #f8fafc;
+  color: #263238;
+}
+
+.host-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 5%;
+  background: #fff;
+  border-bottom: 1px solid #e8edf1;
+}
+
+.host-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #ff385c;
+  font-size: 23px;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.host-header-right {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  color: #58636e;
+  font-size: 14px;
+}
+
+.host-header-right a {
+  color: #e73555;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.host-main {
+  width: min(1180px, 92%);
+  margin: 0 auto;
+  padding: 38px 0 60px;
+}
+
+.host-intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 30px;
+}
+
+.host-eyebrow {
+  margin: 0 0 8px;
+  color: #e73555;
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: 1.3px;
+}
+
+.host-intro h1 {
+  margin: 0 0 10px;
+  color: #263238;
+  font-size: clamp(27px, 4vw, 36px);
+}
+
+.host-intro p:not(.host-eyebrow) {
+  margin: 0;
+  color: #697581;
+  line-height: 1.7;
+}
+
+.host-count {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 150px;
+  padding: 17px 21px;
+  background: #fff;
+  border: 1px solid #e8edf1;
+  border-radius: 15px;
+}
+
+.host-count > svg {
+  color: #e73555;
+  font-size: 25px;
+}
+
+.host-count div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.host-count strong {
+  font-size: 22px;
+}
+
+.host-count span {
+  color: #697581;
+  font-size: 13px;
+}
+
+.host-form-section,
+.host-listings-section {
+  margin-bottom: 32px;
+  padding: 28px;
+  background: #fff;
+  border: 1px solid #e8edf1;
+  border-radius: 18px;
+  box-shadow: 0 7px 25px rgba(25, 45, 65, 0.035);
+}
+
+.host-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 25px;
+}
+
+.host-section-icon {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+  place-items: center;
+  border-radius: 13px;
+  background: #fff0f3;
+  color: #e73555;
+  font-size: 21px;
+}
+
+.host-section-heading h2 {
+  margin: 0 0 5px;
+  font-size: 21px;
+}
+
+.host-section-heading p {
+  margin: 0;
+  color: #75808b;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.host-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.host-field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.host-field-full {
+  grid-column: 1 / -1;
+}
+
+.host-field label {
+  color: #35414b;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.host-field input,
+.host-field textarea,
+.host-field select {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 13px;
+  border: 1px solid #dbe2e8;
+  border-radius: 9px;
+  background: #fff;
+  color: #263238;
+  font: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.host-field textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.host-field input:focus,
+.host-field textarea:focus,
+.host-field select:focus {
+  border-color: #ff385c;
+  box-shadow: 0 0 0 3px rgba(255, 56, 92, 0.1);
+}
+
+.host-image-preview {
+  display: block;
+  width: min(100%, 340px);
+  max-height: 200px;
+  object-fit: cover;
+  border: 1px solid #e8edf1;
+  border-radius: 10px;
+}
+
+.host-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 2px;
+}
+
+.host-primary-button,
+.host-secondary-button,
+.host-edit-button,
+.host-delete-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: 9px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.host-primary-button {
+  border: 1px solid #ff385c;
+  background: #ff385c;
+  color: #fff;
+}
+
+.host-primary-button:hover:not(:disabled) {
+  background: #e73555;
+}
+
+.host-secondary-button {
+  border: 1px solid #dbe2e8;
+  background: #fff;
+  color: #35414b;
+}
+
+.host-primary-button:disabled,
+.host-secondary-button:disabled,
+.host-edit-button:disabled,
+.host-delete-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.host-alert {
+  margin-bottom: 20px;
+  padding: 13px 16px;
+  border-radius: 9px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.host-alert-error {
+  border: 1px solid #f3c5c9;
+  background: #fff1f2;
+  color: #a52635;
+}
+
+.host-alert-success {
+  border: 1px solid #bfe6ce;
+  background: #effbf3;
+  color: #216b3b;
+}
+
+.host-listing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.host-listing-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #e7ebef;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.host-listing-image {
+  display: block;
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  background: #f0f2f4;
+}
+
+.host-listing-content {
+  padding: 17px;
+}
+
+.host-category {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 20px;
+  background: #fff0f3;
+  color: #d92f4e;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.host-listing-content h3 {
+  margin: 12px 0 8px;
+  font-size: 18px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.host-listing-location {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  color: #737e88;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.host-listing-location svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.host-listing-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 13px;
+  margin: 15px 0;
+  color: #58636e;
+  font-size: 12px;
+}
+
+.host-listing-details span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.host-listing-price {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 0 0 17px;
+  font-size: 18px;
+  font-weight: 750;
+}
+
+.host-listing-price span {
+  color: #77818c;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.host-listing-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.host-edit-button,
+.host-delete-button {
+  width: 100%;
+}
+
+.host-edit-button {
+  border: 1px solid #ff385c;
+  background: #fff;
+  color: #e73555;
+}
+
+.host-edit-button:hover:not(:disabled) {
+  background: #fff0f3;
+}
+
+.host-delete-button {
+  border: 1px solid #e7a7ad;
+  background: #fff5f5;
+  color: #b42332;
+}
+
+.host-delete-button:hover:not(:disabled) {
+  border-color: #d95b67;
+  background: #ffe8e9;
+}
+
+.host-empty-state {
+  padding: 35px 12px;
+  color: #75808b;
+  text-align: center;
+}
+
+.host-empty-state > svg {
+  color: #e73555;
+  font-size: 33px;
+}
+
+.host-empty-state h3 {
+  margin: 12px 0 7px;
+  color: #35414b;
+}
+
+.host-empty-state p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.host-footer {
+  padding: 23px 16px;
+  border-top: 1px solid #e8edf1;
+  background: #f0f3f6;
+  color: #6c7680;
+  text-align: center;
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .host-listing-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .host-header {
+    padding: 15px 4%;
+  }
+
+  .host-brand {
+    font-size: 19px;
+  }
+
+  .host-header-right {
+    gap: 10px;
+    font-size: 12px;
+  }
+
+  .host-main {
+    width: 92%;
+    padding-top: 25px;
+  }
+
+  .host-intro {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .host-count {
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .host-form-section,
+  .host-listings-section {
+    padding: 19px 15px;
+    border-radius: 13px;
+  }
+
+  .host-form {
+    grid-template-columns: 1fr;
+    gap: 17px;
+  }
+
+  .host-field-full {
+    grid-column: auto;
+  }
+
+  .host-listing-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .host-listing-image {
+    height: 220px;
+  }
+
+  .host-section-heading h2 {
+    font-size: 18px;
+  }
+
+  .host-section-heading p {
+    font-size: 12px;
+  }
+
+  .host-form-actions {
+    flex-direction: column;
+  }
+
+  .host-primary-button,
+  .host-secondary-button {
+    width: 100%;
+  }
+}
