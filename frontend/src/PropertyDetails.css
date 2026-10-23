@@ -1,7 +1,4 @@
-
-/* =========================================
-   PROPERTY DETAILS PAGE
-========================================= */
+/* Property Details Page */
 
 .pd-page {
   min-height: 100vh;
@@ -81,9 +78,7 @@
   color: #ff385c;
 }
 
-/* =========================================
-   PAGE STATES
-========================================= */
+/* Page States */
 
 .pd-state {
   display: flex;
@@ -150,9 +145,7 @@
   background: #e73555;
 }
 
-/* =========================================
-   TITLE AND SUMMARY
-========================================= */
+/* Title and Summary */
 
 .pd-title-section {
   display: flex;
@@ -248,9 +241,7 @@
   font-size: 17px;
 }
 
-/* =========================================
-   IMAGE AND PROPERTY OVERVIEW
-========================================= */
+/* Image and Property Overview */
 
 .pd-gallery {
   display: grid;
@@ -324,9 +315,7 @@
   font-size: 13px;
 }
 
-/* =========================================
-   MAIN CONTENT LAYOUT
-========================================= */
+/* Main Content Layout */
 
 .pd-content-layout {
   display: grid;
@@ -384,9 +373,7 @@
   overflow-wrap: anywhere;
 }
 
-/* =========================================
-   PROPERTY FEATURES
-========================================= */
+/* Property Features */
 
 .pd-feature-grid {
   display: grid;
@@ -432,9 +419,7 @@
   overflow-wrap: anywhere;
 }
 
-/* =========================================
-   DATE AND GUEST INPUTS
-========================================= */
+/* Date and Guest Inputs */
 
 .pd-date-grid {
   display: grid;
@@ -490,9 +475,7 @@
   grid-column: 1 / -1;
 }
 
-/* =========================================
-   AVAILABILITY AND PRICE BREAKDOWN
-========================================= */
+/* Availability and Price Breakdown */
 
 .pd-status {
   display: flex;
@@ -571,9 +554,7 @@
   font-size: 16px;
 }
 
-/* =========================================
-   BOOKING CARD
-========================================= */
+/* Booking Card */
 
 .pd-booking-column {
   position: sticky;
@@ -738,9 +719,7 @@
   font-size: 12px;
 }
 
-/* =========================================
-   ALERTS
-========================================= */
+/* Alerts */
 
 .pd-form-alert {
   display: flex;
@@ -775,9 +754,7 @@
   font-weight: 700;
 }
 
-/* =========================================
-   REVIEWS AND RATINGS
-========================================= */
+/* Reviews and Ratings */
 
 .pd-heading-star {
   flex-shrink: 0;
@@ -1058,9 +1035,7 @@
   padding: 10px 0;
 }
 
-/* =========================================
-   FOOTER
-========================================= */
+/* Footer */
 
 .pd-footer {
   background: #f4f6f8;
@@ -1109,9 +1084,7 @@
   color: #e73555;
 }
 
-/* =========================================
-   TABLET
-========================================= */
+/* Tablet */
 
 @media (max-width: 1000px) {
   .pd-content-layout {
@@ -1136,9 +1109,7 @@
   }
 }
 
-/* =========================================
-   MOBILE AND SMALL TABLETS
-========================================= */
+/* Mobile and Small Tablets */
 
 @media (max-width: 760px) {
   .pd-header {
@@ -1243,9 +1214,7 @@
   }
 }
 
-/* =========================================
-   SMALL MOBILE
-========================================= */
+/* Small Mobile */
 
 @media (max-width: 460px) {
   .pd-header {

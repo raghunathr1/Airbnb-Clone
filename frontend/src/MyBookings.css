@@ -1,23 +1,10 @@
-/* ==========================================
-   MY BOOKINGS - GLOBAL STYLES
-========================================== */
+/* My Bookings - Global Styles */
 
 .my-bookings-page {
-  --mb-text: #222222;
-  --mb-muted: #717171;
-  --mb-border: #e7e7e7;
-  --mb-soft: #f7f7f7;
-  --mb-primary: #ff385c;
-  --mb-primary-dark: #e31c5f;
-  --mb-success: #18794e;
-  --mb-success-bg: #effaf3;
-  --mb-danger: #b42318;
-  --mb-danger-bg: #fff4f2;
-
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  color: var(--mb-text);
+  color: #222222;
   background: #ffffff;
   font-family:
     Inter,
@@ -44,7 +31,7 @@
 }
 
 .my-bookings-page button:focus-visible {
-  outline: 2px solid var(--mb-primary);
+  outline: 2px solid #ff385c;
   outline-offset: 3px;
 }
 
@@ -53,9 +40,7 @@
   cursor: not-allowed;
 }
 
-/* ==========================================
-   NAVBAR
-========================================== */
+/* Navbar */
 
 .my-bookings-navbar {
   position: sticky;
@@ -81,7 +66,7 @@
   gap: 9px;
   border: 1px solid transparent;
   background: transparent;
-  color: var(--mb-text);
+  color: #222222;
   cursor: pointer;
   transition:
     background 0.2s ease,
@@ -98,8 +83,8 @@
 }
 
 .my-bookings-back:hover {
-  border-color: var(--mb-border);
-  background: var(--mb-soft);
+  border-color: #e7e7e7;
+  background: #f7f7f7;
 }
 
 .my-bookings-back svg {
@@ -111,7 +96,7 @@
   justify-self: center;
   gap: 8px;
   padding: 5px;
-  color: var(--mb-primary);
+  color: #ff385c;
   font-size: 25px;
   font-weight: 800;
   letter-spacing: -0.7px;
@@ -125,20 +110,18 @@
   justify-self: end;
   width: 42px;
   height: 42px;
-  border-color: var(--mb-border);
+  border-color: #e7e7e7;
   border-radius: 50%;
   background: #ffffff;
   font-size: 18px;
 }
 
 .my-bookings-refresh:hover:not(:disabled) {
-  background: var(--mb-soft);
+  background: #f7f7f7;
   border-color: #cfcfcf;
 }
 
-/* ==========================================
-   MAIN CONTAINER
-========================================== */
+/* Main Container */
 
 .my-bookings-container {
   width: min(1120px, calc(100% - 48px));
@@ -147,9 +130,7 @@
   flex: 1;
 }
 
-/* ==========================================
-   PAGE HEADING
-========================================== */
+/* Page Heading */
 
 .my-bookings-heading {
   margin-bottom: 38px;
@@ -158,7 +139,7 @@
 .my-bookings-eyebrow,
 .my-bookings-section-label {
   display: inline-block;
-  color: var(--mb-primary);
+  color: #ff385c;
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 1.5px;
@@ -166,7 +147,7 @@
 
 .my-bookings-heading h1 {
   margin: 10px 0 12px;
-  color: var(--mb-text);
+  color: #222222;
   font-size: clamp(30px, 4vw, 42px);
   line-height: 1.2;
   font-weight: 750;
@@ -176,14 +157,12 @@
 .my-bookings-heading p {
   max-width: 610px;
   margin: 0;
-  color: var(--mb-muted);
+  color: #717171;
   font-size: 15px;
   line-height: 1.8;
 }
 
-/* ==========================================
-   GLOBAL SUCCESS / ERROR MESSAGES
-========================================== */
+/* Success and Error Messages */
 
 .my-bookings-message {
   display: flex;
@@ -209,15 +188,15 @@
 }
 
 .my-bookings-success {
-  color: var(--mb-success);
+  color: #18794e;
   border-color: #c5e8d2;
-  background: var(--mb-success-bg);
+  background: #effaf3;
 }
 
 .my-bookings-error {
-  color: var(--mb-danger);
+  color: #b42318;
   border-color: #f1c8c4;
-  background: var(--mb-danger-bg);
+  background: #fff4f2;
 }
 
 .my-bookings-message button {
@@ -236,9 +215,7 @@
   background: rgba(0, 0, 0, 0.05);
 }
 
-/* ==========================================
-   PRIMARY AND SECONDARY BUTTONS
-========================================== */
+/* Primary and Secondary Buttons */
 
 .my-bookings-primary-button,
 .my-bookings-secondary-button {
@@ -262,29 +239,27 @@
 
 .my-bookings-primary-button {
   color: #ffffff;
-  background: var(--mb-primary);
+  background: #ff385c;
 }
 
 .my-bookings-primary-button:hover {
-  background: var(--mb-primary-dark);
+  background: #e31c5f;
   box-shadow: 0 5px 14px rgba(227, 28, 95, 0.17);
   transform: translateY(-1px);
 }
 
 .my-bookings-secondary-button {
   border-color: #d7d7d7;
-  color: var(--mb-text);
+  color: #222222;
   background: #ffffff;
 }
 
 .my-bookings-secondary-button:hover {
   border-color: #999999;
-  background: var(--mb-soft);
+  background: #f7f7f7;
 }
 
-/* ==========================================
-   LOADING AND LOGIN STATES
-========================================== */
+/* Loading and Login States */
 
 .my-bookings-state {
   min-height: 320px;
@@ -305,14 +280,14 @@
   margin-bottom: 5px;
   border: 1px solid #f2d9df;
   border-radius: 50%;
-  color: var(--mb-primary);
+  color: #ff385c;
   background: #fff3f5;
   font-size: 27px;
 }
 
 .my-bookings-state h2 {
   margin: 0;
-  color: var(--mb-text);
+  color: #222222;
   font-size: 23px;
   font-weight: 750;
 }
@@ -320,7 +295,7 @@
 .my-bookings-state p {
   max-width: 430px;
   margin: 0 0 8px;
-  color: var(--mb-muted);
+  color: #717171;
   font-size: 14px;
   line-height: 1.7;
 }
@@ -330,9 +305,7 @@
   font-size: 35px;
 }
 
-/* ==========================================
-   LOADING ANIMATION
-========================================== */
+/* Loading Animation */
 
 .my-bookings-spinner {
   animation: mb-spin 0.85s linear infinite;
@@ -348,9 +321,7 @@
   }
 }
 
-/* ==========================================
-   BOOKINGS SECTION HEADING
-========================================== */
+/* Bookings Section Heading */
 
 .my-bookings-results {
   width: 100%;
@@ -366,14 +337,14 @@
 
 .my-bookings-results-heading h2 {
   margin: 7px 0 0;
-  color: var(--mb-text);
+  color: #222222;
   font-size: 25px;
   font-weight: 750;
   letter-spacing: -0.5px;
 }
 
 .my-bookings-section-label {
-  color: var(--mb-muted);
+  color: #717171;
   font-size: 10px;
   letter-spacing: 1.3px;
 }
@@ -384,7 +355,7 @@
   justify-content: center;
   min-height: 33px;
   padding: 7px 12px;
-  border: 1px solid var(--mb-border);
+  border: 1px solid #e7e7e7;
   border-radius: 22px;
   background: #fafafa;
   color: #555555;
@@ -393,9 +364,7 @@
   white-space: nowrap;
 }
 
-/* ==========================================
-   FILTER TABS
-========================================== */
+/* Filter Tabs */
 
 .my-bookings-filters {
   display: flex;
@@ -404,7 +373,7 @@
   padding-bottom: 23px;
   margin-bottom: 24px;
   overflow-x: auto;
-  border-bottom: 1px solid var(--mb-border);
+  border-bottom: 1px solid #e7e7e7;
   scrollbar-width: thin;
   scrollbar-color: #d1d1d1 transparent;
 }
@@ -436,8 +405,8 @@
 }
 
 .my-bookings-filter.active {
-  border-color: var(--mb-text);
-  background: var(--mb-text);
+  border-color: #222222;
+  background: #222222;
   color: #ffffff;
 }
 
@@ -459,9 +428,7 @@
   color: #ffffff;
 }
 
-/* ==========================================
-   EMPTY FILTER RESULTS
-========================================== */
+/* Empty Filter Results */
 
 .my-bookings-filter-empty {
   min-height: 330px;
@@ -485,13 +452,13 @@
   margin-bottom: 3px;
   border-radius: 50%;
   background: #fff0f3;
-  color: var(--mb-primary);
+  color: #ff385c;
   font-size: 26px;
 }
 
 .my-bookings-filter-empty h3 {
   margin: 0;
-  color: var(--mb-text);
+  color: #222222;
   font-size: 21px;
   font-weight: 750;
 }
@@ -499,14 +466,12 @@
 .my-bookings-filter-empty p {
   max-width: 430px;
   margin: 0 0 8px;
-  color: var(--mb-muted);
+  color: #717171;
   font-size: 14px;
   line-height: 1.75;
 }
 
-/* ==========================================
-   BOOKING LIST
-========================================== */
+/* Booking List */
 
 .my-bookings-list {
   display: flex;
@@ -514,16 +479,14 @@
   gap: 22px;
 }
 
-/* ==========================================
-   BOOKING CARD
-========================================== */
+/* Booking Card */
 
 .my-booking-card {
   min-width: 0;
   display: grid;
   grid-template-columns: minmax(230px, 290px) minmax(0, 1fr);
   overflow: hidden;
-  border: 1px solid var(--mb-border);
+  border: 1px solid #e7e7e7;
   border-radius: 16px;
   background: #ffffff;
   box-shadow: 0 3px 14px rgba(0, 0, 0, 0.035);
@@ -543,9 +506,7 @@
   background: #fdfdfd;
 }
 
-/* ==========================================
-   PROPERTY IMAGE
-========================================== */
+/* Property Image */
 
 .my-booking-image-wrapper {
   position: relative;
@@ -602,13 +563,11 @@
 }
 
 .my-booking-image-badge svg {
-  color: var(--mb-primary);
+  color: #ff385c;
   font-size: 13px;
 }
 
-/* ==========================================
-   BOOKING CONTENT
-========================================== */
+/* Booking Content */
 
 .my-booking-content {
   min-width: 0;
@@ -632,7 +591,7 @@
 
 .my-booking-property-info h3 {
   margin: 0 0 9px;
-  color: var(--mb-text);
+  color: #222222;
   font-size: 19px;
   line-height: 1.4;
   font-weight: 750;
@@ -645,7 +604,7 @@
   align-items: flex-start;
   gap: 7px;
   margin: 0;
-  color: var(--mb-muted);
+  color: #717171;
   font-size: 12px;
   line-height: 1.6;
   overflow-wrap: anywhere;
@@ -657,9 +616,7 @@
   font-size: 14px;
 }
 
-/* ==========================================
-   BOOKING STATUS
-========================================== */
+/* Booking Status */
 
 .my-booking-status {
   flex-shrink: 0;
@@ -698,9 +655,7 @@
   background: #fff2f0;
 }
 
-/* ==========================================
-   DATE AND GUEST DETAILS
-========================================== */
+/* Date and Guest Details */
 
 .my-booking-details {
   display: grid;
@@ -738,22 +693,20 @@
 }
 
 .my-booking-detail-text small {
-  color: var(--mb-muted);
+  color: #717171;
   font-size: 10px;
   font-weight: 550;
 }
 
 .my-booking-detail-text strong {
-  color: var(--mb-text);
+  color: #222222;
   font-size: 12px;
   line-height: 1.5;
   font-weight: 700;
   overflow-wrap: anywhere;
 }
 
-/* ==========================================
-   BOOKING FOOTER
-========================================== */
+/* Booking Footer */
 
 .my-booking-footer {
   display: flex;
@@ -778,7 +731,7 @@
 
 .my-booking-id-wrapper small,
 .my-booking-total small {
-  color: var(--mb-muted);
+  color: #717171;
   font-size: 10px;
   font-weight: 550;
 }
@@ -798,16 +751,14 @@
 }
 
 .my-booking-total strong {
-  color: var(--mb-text);
+  color: #222222;
   font-size: 20px;
   font-weight: 800;
   letter-spacing: -0.4px;
   overflow-wrap: anywhere;
 }
 
-/* ==========================================
-   CANCEL BUTTON
-========================================== */
+/* Cancel Button */
 
 .my-booking-actions {
   display: flex;
@@ -828,7 +779,7 @@
   padding: 9px 13px;
   border: 1px solid #f0c9c5;
   border-radius: 8px;
-  color: var(--mb-danger);
+  color: #b42318;
   background: #ffffff;
   font-size: 12px;
   font-weight: 700;
@@ -841,7 +792,7 @@
 
 .my-booking-cancel-button:hover:not(:disabled) {
   border-color: #d99690;
-  background: var(--mb-danger-bg);
+  background: #fff4f2;
   transform: translateY(-1px);
 }
 
@@ -849,9 +800,7 @@
   font-size: 15px;
 }
 
-/* ==========================================
-   CANCELLATION MODAL OVERLAY
-========================================== */
+/* Cancellation Modal Overlay */
 
 .booking-cancel-overlay {
   position: fixed;
@@ -877,9 +826,7 @@
   }
 }
 
-/* ==========================================
-   CANCELLATION MODAL
-========================================== */
+/* Cancellation Modal */
 
 .booking-cancel-modal {
   position: relative;
@@ -936,7 +883,7 @@
   place-items: center;
   margin-bottom: 17px;
   border-radius: 15px;
-  color: var(--mb-danger);
+  color: #b42318;
   background: #fff0ee;
   font-size: 25px;
 }
@@ -944,7 +891,7 @@
 .booking-cancel-eyebrow {
   display: block;
   margin-bottom: 9px;
-  color: var(--mb-danger);
+  color: #b42318;
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 1.3px;
@@ -952,7 +899,7 @@
 
 .booking-cancel-modal h2 {
   margin: 0 0 12px;
-  color: var(--mb-text);
+  color: #222222;
   font-size: 25px;
   line-height: 1.3;
   font-weight: 800;
@@ -968,10 +915,10 @@
 }
 
 .booking-cancel-modal > p strong {
-  color: var(--mb-text);
+  color: #222222;
 }
 
-/* Cancellation details */
+/* Cancellation Details */
 
 .booking-cancel-summary {
   display: flex;
@@ -992,12 +939,12 @@
 }
 
 .booking-cancel-summary span {
-  color: var(--mb-muted);
+  color: #717171;
   font-size: 12px;
 }
 
 .booking-cancel-summary strong {
-  color: var(--mb-text);
+  color: #222222;
   font-size: 12px;
   font-weight: 750;
   text-align: right;
@@ -1013,7 +960,7 @@
   line-height: 1.7;
 }
 
-/* Modal actions */
+/* Modal Actions */
 
 .booking-cancel-actions {
   display: grid;
@@ -1043,18 +990,18 @@
 
 .booking-cancel-keep {
   border-color: #dddddd;
-  color: var(--mb-text);
+  color: #222222;
   background: #ffffff;
 }
 
 .booking-cancel-keep:hover:not(:disabled) {
-  background: var(--mb-soft);
+  background: #f7f7f7;
   border-color: #bbbbbb;
 }
 
 .booking-cancel-confirm {
   color: #ffffff;
-  background: var(--mb-danger);
+  background: #b42318;
 }
 
 .booking-cancel-confirm:hover:not(:disabled) {
@@ -1062,9 +1009,7 @@
   transform: translateY(-1px);
 }
 
-/* ==========================================
-   FOOTER
-========================================== */
+/* Footer */
 
 .my-bookings-footer {
   min-height: 74px;
@@ -1079,7 +1024,7 @@
 }
 
 .my-bookings-footer > span {
-  color: var(--mb-muted);
+  color: #717171;
   font-size: 12px;
 }
 
@@ -1097,12 +1042,10 @@
 }
 
 .my-bookings-footer button:hover {
-  color: var(--mb-primary);
+  color: #ff385c;
 }
 
-/* ==========================================
-   TABLET RESPONSIVENESS
-========================================== */
+/* Tablet Responsiveness */
 
 @media (max-width: 900px) {
   .my-bookings-container {
@@ -1143,9 +1086,7 @@
   }
 }
 
-/* ==========================================
-   MOBILE RESPONSIVENESS
-========================================== */
+/* Mobile Responsiveness */
 
 @media (max-width: 600px) {
   .my-bookings-navbar {
@@ -1368,7 +1309,7 @@
     font-size: 12px;
   }
 
-  /* Cancellation modal */
+  /* Cancellation Modal */
 
   .booking-cancel-overlay {
     align-items: center;
@@ -1419,9 +1360,7 @@
   }
 }
 
-/* ==========================================
-   VERY SMALL MOBILE
-========================================== */
+/* Very Small Mobile */
 
 @media (max-width: 380px) {
   .my-bookings-navbar {
@@ -1466,9 +1405,7 @@
   }
 }
 
-/* ==========================================
-   REDUCED MOTION ACCESSIBILITY
-========================================== */
+/* Reduced Motion Accessibility */
 
 @media (prefers-reduced-motion: reduce) {
   .my-bookings-page *,
