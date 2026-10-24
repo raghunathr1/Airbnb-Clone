@@ -4,21 +4,19 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const dns = require("dns");
 
-// Environment configuration
 dotenv.config();
 
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 const app = express();
 
-// CORS configuration
 const corsOptions = {
   origin: [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "https://airbnbclone-two-beta.vercel.app",
+    "https://stay-finder-airbn.netlify.app",
   ],
-
   methods: [
     "GET",
     "HEAD",
@@ -28,12 +26,10 @@ const corsOptions = {
     "DELETE",
     "OPTIONS",
   ],
-
   allowedHeaders: [
     "Content-Type",
     "Authorization",
   ],
-
   optionsSuccessStatus: 204,
   maxAge: 86400,
 };
@@ -41,22 +37,18 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.options(/.*/, cors(corsOptions));
 
-// General middleware
 app.use(express.json({ limit: "1mb" }));
 
-// Import routes
 const listingRoutes = require("./routes/listingRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const authRoutes = require("./routes/authRoutes");
 
-// API routes
 app.use("/api/listings", listingRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/auth", authRoutes);
 
-// Root route
 app.get("/", (req, res) => {
   return res.status(200).json({
     success: true,
@@ -64,7 +56,6 @@ app.get("/", (req, res) => {
   });
 });
 
-// Handle unknown routes
 app.use((req, res) => {
   return res.status(404).json({
     success: false,
@@ -72,7 +63,6 @@ app.use((req, res) => {
   });
 });
 
-// Global error handler
 app.use((err, req, res, next) => {
   console.error("Server error:", err);
 
@@ -91,17 +81,20 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Connect MongoDB and start server
 const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
   try {
     if (!process.env.MONGO_URI) {
-      throw new Error("MONGO_URI is missing from the backend .env file");
+      throw new Error(
+        "MONGO_URI is missing from the backend environment variables"
+      );
     }
 
     if (!process.env.JWT_SECRET) {
-      throw new Error("JWT_SECRET is missing from the backend .env file");
+      throw new Error(
+        "JWT_SECRET is missing from the backend environment variables"
+      );
     }
 
     await mongoose.connect(process.env.MONGO_URI);
@@ -110,7 +103,7 @@ const startServer = async () => {
 
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
-      console.log("CORS enabled for local development and Vercel frontend");
+      console.log("CORS configured for Netlify, Vercel, and local development");
     });
   } catch (error) {
     console.error("Failed to start server:", error.message);
