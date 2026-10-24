@@ -9,11 +9,7 @@ const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// ======================================================
-// GET REVIEWS FOR A PROPERTY
-// GET /api/reviews/:propertyId
-// Public endpoint
-// ======================================================
+
 router.get("/:propertyId", async (req, res) => {
   try {
     const { propertyId } = req.params;
@@ -66,11 +62,7 @@ router.get("/:propertyId", async (req, res) => {
   }
 });
 
-// ======================================================
-// ADD A REVIEW
-// POST /api/reviews
-// Login required
-// ======================================================
+
 router.post("/", authMiddleware, async (req, res) => {
   try {
     const { propertyId, rating, comment } = req.body || {};

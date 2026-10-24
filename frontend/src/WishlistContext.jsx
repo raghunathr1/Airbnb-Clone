@@ -1,9 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const WishlistContext = createContext(null);
 
@@ -24,19 +19,14 @@ export function WishlistProvider({ children }) {
 
   useEffect(() => {
     try {
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(wishlist)
-      );
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(wishlist));
     } catch (error) {
       console.error("Unable to save wishlist:", error);
     }
   }, [wishlist]);
 
   const isWishlisted = (propertyId) =>
-    wishlist.some(
-      (property) => property._id === propertyId
-    );
+    wishlist.some((property) => property._id === propertyId);
 
   const toggleWishlist = (property) => {
     const propertyId = property?._id;
@@ -48,13 +38,11 @@ export function WishlistProvider({ children }) {
 
     setWishlist((currentWishlist) => {
       const alreadySaved = currentWishlist.some(
-        (item) => item._id === propertyId
+        (item) => item._id === propertyId,
       );
 
       if (alreadySaved) {
-        return currentWishlist.filter(
-          (item) => item._id !== propertyId
-        );
+        return currentWishlist.filter((item) => item._id !== propertyId);
       }
 
       return [...currentWishlist, property];
@@ -63,9 +51,7 @@ export function WishlistProvider({ children }) {
 
   const removeFromWishlist = (propertyId) => {
     setWishlist((currentWishlist) =>
-      currentWishlist.filter(
-        (property) => property._id !== propertyId
-      )
+      currentWishlist.filter((property) => property._id !== propertyId),
     );
   };
 
@@ -87,9 +73,7 @@ export function useWishlist() {
   const context = useContext(WishlistContext);
 
   if (!context) {
-    throw new Error(
-      "useWishlist must be used inside WishlistProvider."
-    );
+    throw new Error("useWishlist must be used inside WishlistProvider.");
   }
 
   return context;

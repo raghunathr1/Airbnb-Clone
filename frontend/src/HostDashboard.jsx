@@ -1,4 +1,3 @@
-
 import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -31,17 +30,10 @@ const EMPTY_FORM = {
   longitude: "",
 };
 
-const CATEGORIES = [
-  "Amazing views",
-  "Beachfront",
-  "Cabins",
-  "Countryside",
-];
+const CATEGORIES = ["Amazing views", "Beachfront", "Cabins", "Countryside"];
 
 const getAuthToken = () =>
-  localStorage.getItem("token") ||
-  localStorage.getItem("airbnb-token") ||
-  "";
+  localStorage.getItem("token") || localStorage.getItem("airbnb-token") || "";
 
 const clearAuthStorage = () => {
   localStorage.removeItem("token");
@@ -92,19 +84,14 @@ function HostDashboard() {
     setError("");
 
     try {
-      const response = await axios.get(
-        `${API_URL}/listings/mine`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${API_URL}/listings/mine`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       setListings(
-        Array.isArray(response.data?.listings)
-          ? response.data.listings
-          : []
+        Array.isArray(response.data?.listings) ? response.data.listings : [],
       );
     } catch (err) {
       if (err.response?.status === 401) {
@@ -114,7 +101,7 @@ function HostDashboard() {
 
       setError(
         err.response?.data?.message ||
-          "Could not load properties. Please try again."
+          "Could not load properties. Please try again.",
       );
     } finally {
       setLoading(false);
@@ -152,14 +139,8 @@ function HostDashboard() {
       bedrooms: String(listing.bedrooms ?? 1),
       guests: String(listing.guests ?? 1),
       category: listing.category || "Countryside",
-      latitude:
-        listing.latitude == null
-          ? ""
-          : String(listing.latitude),
-      longitude:
-        listing.longitude == null
-          ? ""
-          : String(listing.longitude),
+      latitude: listing.latitude == null ? "" : String(listing.latitude),
+      longitude: listing.longitude == null ? "" : String(listing.longitude),
     });
 
     setError("");
@@ -195,9 +176,7 @@ function HostDashboard() {
       !form.location.trim() ||
       !form.image.trim()
     ) {
-      setError(
-        "Please enter the title, description, location and image URL."
-      );
+      setError("Please enter the title, description, location and image URL.");
       return;
     }
 
@@ -209,9 +188,7 @@ function HostDashboard() {
       !Number.isInteger(guests) ||
       guests < 1
     ) {
-      setError(
-        "Enter a valid price, bedroom count and guest capacity."
-      );
+      setError("Enter a valid price, bedroom count and guest capacity.");
       return;
     }
 
@@ -229,11 +206,7 @@ function HostDashboard() {
     if (form.latitude.trim() !== "") {
       const latitude = Number(form.latitude);
 
-      if (
-        !Number.isFinite(latitude) ||
-        latitude < -90 ||
-        latitude > 90
-      ) {
+      if (!Number.isFinite(latitude) || latitude < -90 || latitude > 90) {
         setError("Latitude must be between -90 and 90.");
         return;
       }
@@ -244,11 +217,7 @@ function HostDashboard() {
     if (form.longitude.trim() !== "") {
       const longitude = Number(form.longitude);
 
-      if (
-        !Number.isFinite(longitude) ||
-        longitude < -180 ||
-        longitude > 180
-      ) {
+      if (!Number.isFinite(longitude) || longitude < -180 || longitude > 180) {
         setError("Longitude must be between -180 and 180.");
         return;
       }
@@ -260,27 +229,19 @@ function HostDashboard() {
 
     try {
       if (editingId) {
-        await axios.put(
-          `${API_URL}/listings/${editingId}`,
-          payload,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        await axios.put(`${API_URL}/listings/${editingId}`, payload, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         setMessage("Property updated successfully.");
       } else {
-        await axios.post(
-          `${API_URL}/listings`,
-          payload,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        await axios.post(`${API_URL}/listings`, payload, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         setMessage("Property added successfully.");
       }
@@ -295,7 +256,7 @@ function HostDashboard() {
 
       setError(
         err.response?.data?.message ||
-          "Could not save the property. Please try again."
+          "Could not save the property. Please try again.",
       );
     } finally {
       setSaving(false);
@@ -309,7 +270,7 @@ function HostDashboard() {
     }
 
     const confirmed = window.confirm(
-      `Are you sure you want to delete "${listing.title}"?`
+      `Are you sure you want to delete "${listing.title}"?`,
     );
 
     if (!confirmed) {
@@ -328,19 +289,14 @@ function HostDashboard() {
     setDeletingId(listing._id);
 
     try {
-      await axios.delete(
-        `${API_URL}/listings/${listing._id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await axios.delete(`${API_URL}/listings/${listing._id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       setListings((previous) =>
-        previous.filter(
-          (item) => item._id !== listing._id
-        )
+        previous.filter((item) => item._id !== listing._id),
       );
 
       if (editingId === listing._id) {
@@ -356,7 +312,7 @@ function HostDashboard() {
 
       setError(
         err.response?.data?.message ||
-          "Could not delete the property. Please try again."
+          "Could not delete the property. Please try again.",
       );
     } finally {
       setDeletingId(null);
@@ -380,15 +336,12 @@ function HostDashboard() {
       <main className="host-main">
         <section className="host-intro">
           <div>
-            <p className="host-eyebrow">
-              PROPERTY MANAGEMENT
-            </p>
+            <p className="host-eyebrow">PROPERTY MANAGEMENT</p>
 
             <h1>Manage your properties</h1>
 
             <p>
-              Add a new stay or update the details of your
-              existing properties.
+              Add a new stay or update the details of your existing properties.
             </p>
           </div>
 
@@ -397,29 +350,19 @@ function HostDashboard() {
 
             <div>
               <strong>{listings.length}</strong>
-              <span>
-                {listings.length === 1
-                  ? "Property"
-                  : "Properties"}
-              </span>
+              <span>{listings.length === 1 ? "Property" : "Properties"}</span>
             </div>
           </div>
         </section>
 
         {error && (
-          <div
-            className="host-alert host-alert-error"
-            role="alert"
-          >
+          <div className="host-alert host-alert-error" role="alert">
             {error}
           </div>
         )}
 
         {message && (
-          <div
-            className="host-alert host-alert-success"
-            role="status"
-          >
+          <div className="host-alert host-alert-success" role="status">
             {message}
           </div>
         )}
@@ -431,20 +374,13 @@ function HostDashboard() {
             </div>
 
             <div>
-              <h2>
-                {editingId ? "Edit Property" : "Add a Property"}
-              </h2>
+              <h2>{editingId ? "Edit Property" : "Add a Property"}</h2>
 
-              <p>
-                Enter accurate information about your property.
-              </p>
+              <p>Enter accurate information about your property.</p>
             </div>
           </div>
 
-          <form
-            className="host-form"
-            onSubmit={handleSubmit}
-          >
+          <form className="host-form" onSubmit={handleSubmit}>
             <div className="host-field">
               <label htmlFor="title">Property title *</label>
 
@@ -487,9 +423,7 @@ function HostDashboard() {
             </div>
 
             <div className="host-field host-field-full">
-              <label htmlFor="image">
-                Property image URL *
-              </label>
+              <label htmlFor="image">Property image URL *</label>
 
               <input
                 id="image"
@@ -518,9 +452,7 @@ function HostDashboard() {
             </div>
 
             <div className="host-field">
-              <label htmlFor="price">
-                Price per night (₹) *
-              </label>
+              <label htmlFor="price">Price per night (₹) *</label>
 
               <input
                 id="price"
@@ -584,9 +516,7 @@ function HostDashboard() {
             </div>
 
             <div className="host-field">
-              <label htmlFor="latitude">
-                Latitude (optional)
-              </label>
+              <label htmlFor="latitude">Latitude (optional)</label>
 
               <input
                 id="latitude"
@@ -600,9 +530,7 @@ function HostDashboard() {
             </div>
 
             <div className="host-field">
-              <label htmlFor="longitude">
-                Longitude (optional)
-              </label>
+              <label htmlFor="longitude">Longitude (optional)</label>
 
               <input
                 id="longitude"
@@ -661,31 +589,23 @@ function HostDashboard() {
             <div>
               <h2>Your Properties</h2>
               <p>
-                View and manage the properties associated with
-                your account.
+                View and manage the properties associated with your account.
               </p>
             </div>
           </div>
 
           {loading ? (
-            <p className="host-empty-state">
-              Loading properties...
-            </p>
+            <p className="host-empty-state">Loading properties...</p>
           ) : listings.length === 0 ? (
             <div className="host-empty-state">
               <FiHome />
               <h3>No properties yet</h3>
-              <p>
-                Add your first property using the form above.
-              </p>
+              <p>Add your first property using the form above.</p>
             </div>
           ) : (
             <div className="host-listing-grid">
               {listings.map((listing) => (
-                <article
-                  className="host-listing-card"
-                  key={listing._id}
-                >
+                <article className="host-listing-card" key={listing._id}>
                   <img
                     className="host-listing-image"
                     src={listing.image}
@@ -696,9 +616,7 @@ function HostDashboard() {
                   />
 
                   <div className="host-listing-content">
-                    <span className="host-category">
-                      {listing.category}
-                    </span>
+                    <span className="host-category">{listing.category}</span>
 
                     <h3>{listing.title}</h3>
 
@@ -720,11 +638,8 @@ function HostDashboard() {
                     </div>
 
                     <p className="host-listing-price">
-                      <FiDollarSign />
-                      ₹
-                      {Number(listing.price).toLocaleString(
-                        "en-IN"
-                      )}
+                      <FiDollarSign />₹
+                      {Number(listing.price).toLocaleString("en-IN")}
                       <span>/ night</span>
                     </p>
 
@@ -759,9 +674,7 @@ function HostDashboard() {
         </section>
       </main>
 
-      <footer className="host-footer">
-        StayFinder · Host Dashboard
-      </footer>
+      <footer className="host-footer">StayFinder · Host Dashboard</footer>
     </div>
   );
 }

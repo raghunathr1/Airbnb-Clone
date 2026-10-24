@@ -1,4 +1,3 @@
-
 const express = require("express");
 const mongoose = require("mongoose");
 
@@ -41,11 +40,6 @@ const REQUIRED_FIELDS = [
   "category",
 ];
 
-// ======================================================
-// VALIDATE LISTING DATA
-// Latitude and longitude are optional.
-// Host and rating cannot be changed through the request.
-// ======================================================
 const prepareListingData = (body, isCreate = false) => {
   if (
     !body ||
@@ -161,7 +155,7 @@ const prepareListingData = (body, isCreate = false) => {
     }
   }
 
-  // Latitude is optional.
+  // Validate optional latitude.
   if (data.latitude !== undefined) {
     if (
       data.latitude === "" ||
@@ -188,7 +182,7 @@ const prepareListingData = (body, isCreate = false) => {
     data.latitude = latitude;
   }
 
-  // Longitude is optional.
+  // Validate optional longitude.
   if (data.longitude !== undefined) {
     if (
       data.longitude === "" ||
@@ -218,11 +212,6 @@ const prepareListingData = (body, isCreate = false) => {
   return { data };
 };
 
-// ======================================================
-// GET ALL LISTINGS
-// Public
-// GET /api/listings
-// ======================================================
 router.get("/", async (req, res) => {
   try {
     const listings = await Listing.find().sort({
@@ -244,13 +233,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// ======================================================
-// GET MY LISTINGS
-// Hosts see their own properties.
-// Admins see all properties.
-// IMPORTANT: Place before GET /:id.
-// GET /api/listings/mine
-// ======================================================
+// Hosts see their own listings; admins see all listings. Keep this route before GET /:id.
 router.get("/mine", authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(
@@ -296,11 +279,6 @@ router.get("/mine", authMiddleware, async (req, res) => {
   }
 });
 
-// ======================================================
-// GET SINGLE LISTING
-// Public
-// GET /api/listings/:id
-// ======================================================
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -335,11 +313,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// ======================================================
-// CREATE LISTING
-// Only host and admin
-// POST /api/listings
-// ======================================================
 router.post("/", authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(
@@ -372,8 +345,7 @@ router.post("/", authMiddleware, async (req, res) => {
       });
     }
 
-    // Set owner from the authenticated account.
-    // Ignore any host ID sent by the client.
+    // Set the listing owner from the authenticated account.
     const listing = await Listing.create({
       ...data,
       host: user._id,
@@ -404,11 +376,6 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
-// ======================================================
-// UPDATE LISTING
-// Only the owner or admin
-// PUT /api/listings/:id
-// ======================================================
 router.put("/:id", authMiddleware, async (req, res) => {
   try {
     const { id } = req.params;
@@ -517,12 +484,6 @@ router.put("/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// ======================================================
-// DELETE LISTING
-// Only the owner or admin
-// A property with booking history cannot be deleted.
-// DELETE /api/listings/:id
-// ======================================================
 router.delete("/:id", authMiddleware, async (req, res) => {
   try {
     const { id } = req.params;
@@ -581,7 +542,7 @@ router.delete("/:id", authMiddleware, async (req, res) => {
       });
     }
 
-    // Remove associated reviews and then the property.
+    // Remove associated reviews before deleting the property.
     await Review.deleteMany({
       propertyId: listing._id,
     });

@@ -1,4 +1,3 @@
-
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -26,9 +25,7 @@ import API_BASE_URL from "./api";
 const API_URL = `${API_BASE_URL}/bookings`;
 
 const getAuthToken = () =>
-  localStorage.getItem("token") ||
-  localStorage.getItem("airbnb-token") ||
-  "";
+  localStorage.getItem("token") || localStorage.getItem("airbnb-token") || "";
 
 const clearAuthStorage = () => {
   localStorage.removeItem("token");
@@ -83,9 +80,7 @@ function MyBookings() {
           : null;
 
       if (!fetchedBookings) {
-        throw new Error(
-          "Invalid bookings response received from the server."
-        );
+        throw new Error("Invalid bookings response received from the server.");
       }
 
       setBookings(fetchedBookings);
@@ -102,7 +97,7 @@ function MyBookings() {
         setError(
           err.response?.data?.message ||
             err.message ||
-            "Bookings could not be loaded. Please check the backend."
+            "Bookings could not be loaded. Please check the backend.",
         );
       }
     } finally {
@@ -143,11 +138,7 @@ function MyBookings() {
   const getToday = () => {
     const today = new Date();
 
-    return new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate()
-    );
+    return new Date(today.getFullYear(), today.getMonth(), today.getDate());
   };
 
   const getBookingCategory = (booking) => {
@@ -172,12 +163,10 @@ function MyBookings() {
     const normalizedCheckOut = new Date(
       checkOutDate.getFullYear(),
       checkOutDate.getMonth(),
-      checkOutDate.getDate()
+      checkOutDate.getDate(),
     );
 
-    return normalizedCheckOut <= getToday()
-      ? "completed"
-      : "upcoming";
+    return normalizedCheckOut <= getToday() ? "completed" : "upcoming";
   };
 
   const filteredBookings = bookings.filter((booking) => {
@@ -191,13 +180,13 @@ function MyBookings() {
   const filterCounts = {
     all: bookings.length,
     upcoming: bookings.filter(
-      (booking) => getBookingCategory(booking) === "upcoming"
+      (booking) => getBookingCategory(booking) === "upcoming",
     ).length,
     completed: bookings.filter(
-      (booking) => getBookingCategory(booking) === "completed"
+      (booking) => getBookingCategory(booking) === "completed",
     ).length,
     cancelled: bookings.filter(
-      (booking) => getBookingCategory(booking) === "cancelled"
+      (booking) => getBookingCategory(booking) === "cancelled",
     ).length,
   };
 
@@ -243,7 +232,7 @@ function MyBookings() {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       const payload = response.data?.data ?? response.data;
@@ -254,9 +243,7 @@ function MyBookings() {
         typeof updatedBooking !== "object" ||
         !updatedBooking._id
       ) {
-        throw new Error(
-          "The server did not return the updated booking."
-        );
+        throw new Error("The server did not return the updated booking.");
       }
 
       setBookings((previousBookings) =>
@@ -265,17 +252,15 @@ function MyBookings() {
             ? {
                 ...booking,
                 ...updatedBooking,
-                property:
-                  updatedBooking.property || booking.property,
+                property: updatedBooking.property || booking.property,
                 status: updatedBooking.status || "cancelled",
               }
-            : booking
-        )
+            : booking,
+        ),
       );
 
       setSuccessMessage(
-        payload?.message ||
-          "Your booking has been cancelled successfully."
+        payload?.message || "Your booking has been cancelled successfully.",
       );
 
       setBookingToCancel(null);
@@ -290,7 +275,7 @@ function MyBookings() {
         setError(
           err.response?.data?.message ||
             err.message ||
-            "Booking cancellation failed. Please try again."
+            "Booking cancellation failed. Please try again.",
         );
       }
 
@@ -355,23 +340,19 @@ function MyBookings() {
           aria-label="Refresh bookings"
           title="Refresh bookings"
         >
-          <FiRefreshCw
-            className={loading ? "refresh-spinning" : ""}
-          />
+          <FiRefreshCw className={loading ? "refresh-spinning" : ""} />
         </button>
       </header>
 
       <main className="my-bookings-container">
         <section className="my-bookings-heading">
-          <span className="my-bookings-eyebrow">
-            YOUR TRIPS
-          </span>
+          <span className="my-bookings-eyebrow">YOUR TRIPS</span>
 
           <h1>My Bookings</h1>
 
           <p>
-            Manage your reservations and keep track of all your
-            trips in one place.
+            Manage your reservations and keep track of all your trips in one
+            place.
           </p>
         </section>
 
@@ -394,10 +375,7 @@ function MyBookings() {
         )}
 
         {error && (
-          <div
-            className="my-bookings-message my-bookings-error"
-            role="alert"
-          >
+          <div className="my-bookings-message my-bookings-error" role="alert">
             <FiAlertCircle />
             <span>{error}</span>
 
@@ -420,9 +398,7 @@ function MyBookings() {
 
             <h2>Login required</h2>
 
-            <p>
-              Login to your account to view and manage your bookings.
-            </p>
+            <p>Login to your account to view and manage your bookings.</p>
 
             <button
               type="button"
@@ -451,24 +427,17 @@ function MyBookings() {
           <section className="my-bookings-results">
             <div className="my-bookings-results-heading">
               <div>
-                <span className="my-bookings-section-label">
-                  RESERVATIONS
-                </span>
+                <span className="my-bookings-section-label">RESERVATIONS</span>
                 <h2>Your trips</h2>
               </div>
 
               <span className="my-bookings-count">
                 {filteredBookings.length}{" "}
-                {filteredBookings.length === 1
-                  ? "booking"
-                  : "bookings"}
+                {filteredBookings.length === 1 ? "booking" : "bookings"}
               </span>
             </div>
 
-            <div
-              className="my-bookings-filters"
-              aria-label="Filter bookings"
-            >
+            <div className="my-bookings-filters" aria-label="Filter bookings">
               {filters.map((filter) => (
                 <button
                   key={filter.id}
@@ -530,15 +499,12 @@ function MyBookings() {
                 {filteredBookings.map((booking) => {
                   const property = booking.property;
                   const category = getBookingCategory(booking);
-                  const isCancelled =
-                    booking.status === "cancelled";
+                  const isCancelled = booking.status === "cancelled";
 
                   return (
                     <article
                       className={`my-booking-card ${
-                        isCancelled
-                          ? "my-booking-card-cancelled"
-                          : ""
+                        isCancelled ? "my-booking-card-cancelled" : ""
                       }`}
                       key={booking._id}
                     >
@@ -546,9 +512,7 @@ function MyBookings() {
                         {property?.image ? (
                           <img
                             src={property.image}
-                            alt={
-                              property.title || "Booked property"
-                            }
+                            alt={property.title || "Booked property"}
                             className="my-booking-image"
                             loading="lazy"
                           />
@@ -569,16 +533,12 @@ function MyBookings() {
                       <div className="my-booking-content">
                         <div className="my-booking-title-row">
                           <div className="my-booking-property-info">
-                            <h3>
-                              {property?.title ||
-                                "Property unavailable"}
-                            </h3>
+                            <h3>{property?.title || "Property unavailable"}</h3>
 
                             <p className="my-booking-location">
                               <FiMapPin />
                               <span>
-                                {property?.location ||
-                                  "Location unavailable"}
+                                {property?.location || "Location unavailable"}
                               </span>
                             </p>
                           </div>
@@ -592,11 +552,7 @@ function MyBookings() {
                                   : "status-confirmed"
                             }`}
                           >
-                            {isCancelled ? (
-                              <FiXCircle />
-                            ) : (
-                              <FiCheckCircle />
-                            )}
+                            {isCancelled ? <FiXCircle /> : <FiCheckCircle />}
 
                             {isCancelled
                               ? "Cancelled"
@@ -614,9 +570,7 @@ function MyBookings() {
 
                             <span className="my-booking-detail-text">
                               <small>Check-in</small>
-                              <strong>
-                                {formatDate(booking.checkIn)}
-                              </strong>
+                              <strong>{formatDate(booking.checkIn)}</strong>
                             </span>
                           </div>
 
@@ -627,9 +581,7 @@ function MyBookings() {
 
                             <span className="my-booking-detail-text">
                               <small>Check-out</small>
-                              <strong>
-                                {formatDate(booking.checkOut)}
-                              </strong>
+                              <strong>{formatDate(booking.checkOut)}</strong>
                             </span>
                           </div>
 
@@ -653,38 +605,30 @@ function MyBookings() {
                         <div className="my-booking-footer">
                           <div className="my-booking-id-wrapper">
                             <small>Booking ID</small>
-                            <span
-                              className="my-booking-id"
-                              title={booking._id}
-                            >
+                            <span className="my-booking-id" title={booking._id}>
                               {booking._id}
                             </span>
                           </div>
 
                           <div className="my-booking-total">
                             <small>Total price</small>
-                            <strong>
-                              ₹{formatPrice(booking.totalPrice)}
-                            </strong>
+                            <strong>₹{formatPrice(booking.totalPrice)}</strong>
                           </div>
                         </div>
 
-                        {!isCancelled &&
-                          category === "upcoming" && (
-                            <div className="my-booking-actions">
-                              <button
-                                type="button"
-                                className="my-booking-cancel-button"
-                                onClick={() =>
-                                  setBookingToCancel(booking)
-                                }
-                                disabled={Boolean(cancellingId)}
-                              >
-                                <FiXCircle />
-                                Cancel booking
-                              </button>
-                            </div>
-                          )}
+                        {!isCancelled && category === "upcoming" && (
+                          <div className="my-booking-actions">
+                            <button
+                              type="button"
+                              className="my-booking-cancel-button"
+                              onClick={() => setBookingToCancel(booking)}
+                              disabled={Boolean(cancellingId)}
+                            >
+                              <FiXCircle />
+                              Cancel booking
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </article>
                   );
@@ -699,10 +643,7 @@ function MyBookings() {
         <div
           className="booking-cancel-overlay"
           onMouseDown={(event) => {
-            if (
-              event.target === event.currentTarget &&
-              !cancellingId
-            ) {
+            if (event.target === event.currentTarget && !cancellingId) {
               setBookingToCancel(null);
             }
           }}
@@ -727,19 +668,14 @@ function MyBookings() {
               <FiAlertCircle />
             </div>
 
-            <span className="booking-cancel-eyebrow">
-              BOOKING CANCELLATION
-            </span>
+            <span className="booking-cancel-eyebrow">BOOKING CANCELLATION</span>
 
-            <h2 id="booking-cancel-title">
-              Cancel this booking?
-            </h2>
+            <h2 id="booking-cancel-title">Cancel this booking?</h2>
 
             <p>
               Are you sure you want to cancel your reservation for{" "}
               <strong>
-                {bookingToCancel.property?.title ||
-                  "this property"}
+                {bookingToCancel.property?.title || "this property"}
               </strong>
               ?
             </p>
@@ -747,29 +683,23 @@ function MyBookings() {
             <div className="booking-cancel-summary">
               <div>
                 <span>Check-in</span>
-                <strong>
-                  {formatDate(bookingToCancel.checkIn)}
-                </strong>
+                <strong>{formatDate(bookingToCancel.checkIn)}</strong>
               </div>
 
               <div>
                 <span>Check-out</span>
-                <strong>
-                  {formatDate(bookingToCancel.checkOut)}
-                </strong>
+                <strong>{formatDate(bookingToCancel.checkOut)}</strong>
               </div>
 
               <div>
                 <span>Booking total</span>
-                <strong>
-                  ₹{formatPrice(bookingToCancel.totalPrice)}
-                </strong>
+                <strong>₹{formatPrice(bookingToCancel.totalPrice)}</strong>
               </div>
             </div>
 
             <p className="booking-cancel-note">
-              This action marks the booking as cancelled.
-              Refunds are not processed automatically by this feature.
+              This action marks the booking as cancelled. Refunds are not
+              processed automatically by this feature.
             </p>
 
             <div className="booking-cancel-actions">
@@ -806,14 +736,9 @@ function MyBookings() {
       )}
 
       <footer className="my-bookings-footer">
-        <span>
-          © {new Date().getFullYear()} StayFinder
-        </span>
+        <span>© {new Date().getFullYear()} StayFinder</span>
 
-        <button
-          type="button"
-          onClick={() => navigate("/")}
-        >
+        <button type="button" onClick={() => navigate("/")}>
           Explore stays
           <FiChevronRight />
         </button>

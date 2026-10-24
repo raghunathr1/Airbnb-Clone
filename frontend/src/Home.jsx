@@ -1,4 +1,3 @@
-
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -38,9 +37,7 @@ const CATEGORIES = [
 // Read the saved authentication token.
 const getStoredToken = () => {
   return (
-    localStorage.getItem("token") ||
-    localStorage.getItem("airbnb-token") ||
-    ""
+    localStorage.getItem("token") || localStorage.getItem("airbnb-token") || ""
   );
 };
 
@@ -98,8 +95,8 @@ function Home() {
 
   // Authentication state.
   const [currentUser, setCurrentUser] = useState(getSavedUser);
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    () => Boolean(getStoredToken())
+  const [isAuthenticated, setIsAuthenticated] = useState(() =>
+    Boolean(getStoredToken()),
   );
 
   // Fetch property listings from the backend.
@@ -111,23 +108,15 @@ function Home() {
       setError("");
 
       try {
-        const response = await axios.get(
-          `${API_URL}/listings`,
-          {
-            signal: controller.signal,
-          }
-        );
+        const response = await axios.get(`${API_URL}/listings`, {
+          signal: controller.signal,
+        });
 
         setProperties(
-          Array.isArray(response.data?.listings)
-            ? response.data.listings
-            : []
+          Array.isArray(response.data?.listings) ? response.data.listings : [],
         );
       } catch (err) {
-        if (
-          err.code === "ERR_CANCELED" ||
-          err.name === "CanceledError"
-        ) {
+        if (err.code === "ERR_CANCELED" || err.name === "CanceledError") {
           return;
         }
 
@@ -135,7 +124,7 @@ function Home() {
 
         setError(
           err.response?.data?.message ||
-            "Unable to load properties. Please check your backend connection."
+            "Unable to load properties. Please check your backend connection.",
         );
       } finally {
         if (!controller.signal.aborted) {
@@ -185,13 +174,9 @@ function Home() {
     return properties.filter((property) => {
       const title = (property.title || "").toLowerCase();
 
-      const description = (
-        property.description || ""
-      ).toLowerCase();
+      const description = (property.description || "").toLowerCase();
 
-      const location = (
-        property.location || ""
-      ).toLowerCase();
+      const location = (property.location || "").toLowerCase();
 
       const matchesSearch =
         !normalizedSearch ||
@@ -200,20 +185,16 @@ function Home() {
         location.includes(normalizedSearch);
 
       const matchesCategory =
-        selectedCategory === "All" ||
-        property.category === selectedCategory;
+        selectedCategory === "All" || property.category === selectedCategory;
 
       const price = Number(property.price) || 0;
       const guests = Number(property.guests) || 0;
 
-      const matchesMinPrice =
-        minPrice === "" || price >= Number(minPrice);
+      const matchesMinPrice = minPrice === "" || price >= Number(minPrice);
 
-      const matchesMaxPrice =
-        maxPrice === "" || price <= Number(maxPrice);
+      const matchesMaxPrice = maxPrice === "" || price <= Number(maxPrice);
 
-      const matchesGuests =
-        guests >= Math.max(1, Number(minGuests) || 1);
+      const matchesGuests = guests >= Math.max(1, Number(minGuests) || 1);
 
       return (
         matchesSearch &&
@@ -223,14 +204,7 @@ function Home() {
         matchesGuests
       );
     });
-  }, [
-    properties,
-    search,
-    selectedCategory,
-    minPrice,
-    maxPrice,
-    minGuests,
-  ]);
+  }, [properties, search, selectedCategory, minPrice, maxPrice, minGuests]);
 
   // Open the selected property's details page.
   const openProperty = (propertyId) => {
@@ -278,10 +252,7 @@ function Home() {
             <span>Wishlist</span>
           </Link>
 
-          <Link
-            to="/my-bookings"
-            className="bookings-nav-link"
-          >
+          <Link to="/my-bookings" className="bookings-nav-link">
             My Bookings
           </Link>
 
@@ -296,20 +267,14 @@ function Home() {
                 title={currentUser?.email || ""}
               >
                 <span className="account-avatar">
-                  {(
-                    currentUser?.name ||
-                    currentUser?.email ||
-                    "U"
-                  )
+                  {(currentUser?.name || currentUser?.email || "U")
                     .trim()
                     .charAt(0)
                     .toUpperCase()}
                 </span>
 
                 <span className="account-name">
-                  {currentUser?.name ||
-                    currentUser?.email ||
-                    "Logged in"}
+                  {currentUser?.name || currentUser?.email || "Logged in"}
                 </span>
               </div>
 
@@ -323,11 +288,7 @@ function Home() {
               </button>
             </>
           ) : (
-            <Link
-              to="/login"
-              className="profile-menu"
-              aria-label="Login"
-            >
+            <Link to="/login" className="profile-menu" aria-label="Login">
               <FiMenu />
               <span>Login</span>
             </Link>
@@ -357,9 +318,7 @@ function Home() {
         <button
           type="button"
           className="filter-button"
-          onClick={() =>
-            setShowFilters((previous) => !previous)
-          }
+          onClick={() => setShowFilters((previous) => !previous)}
           aria-expanded={showFilters}
         >
           {showFilters ? <FiX /> : <FiSliders />}
@@ -381,9 +340,7 @@ function Home() {
               type="number"
               min="0"
               value={minPrice}
-              onChange={(event) =>
-                setMinPrice(event.target.value)
-              }
+              onChange={(event) => setMinPrice(event.target.value)}
               placeholder="No minimum"
             />
           </div>
@@ -399,9 +356,7 @@ function Home() {
               type="number"
               min="0"
               value={maxPrice}
-              onChange={(event) =>
-                setMaxPrice(event.target.value)
-              }
+              onChange={(event) => setMaxPrice(event.target.value)}
               placeholder="No maximum"
             />
           </div>
@@ -418,9 +373,7 @@ function Home() {
               min="1"
               step="1"
               value={minGuests}
-              onChange={(event) =>
-                setMinGuests(event.target.value)
-              }
+              onChange={(event) => setMinGuests(event.target.value)}
             />
           </div>
 
@@ -444,9 +397,7 @@ function Home() {
               {loading
                 ? "Loading properties..."
                 : `${filteredProperties.length} ${
-                    filteredProperties.length === 1
-                      ? "property"
-                      : "properties"
+                    filteredProperties.length === 1 ? "property" : "properties"
                   } available`}
             </p>
           </div>
@@ -454,9 +405,7 @@ function Home() {
           <button
             type="button"
             className="map-toggle-button"
-            onClick={() =>
-              setShowMap((previous) => !previous)
-            }
+            onClick={() => setShowMap((previous) => !previous)}
           >
             {showMap ? <FiGrid /> : <FiMap />}
             {showMap ? "Show listings" : "Show map"}
@@ -470,9 +419,7 @@ function Home() {
 
             <button
               type="button"
-              onClick={() =>
-                setRetryCount((count) => count + 1)
-              }
+              onClick={() => setRetryCount((count) => count + 1)}
             >
               Retry
             </button>
@@ -497,9 +444,7 @@ function Home() {
                   <div className="empty-state">
                     <FiMapPin />
                     <h2>No properties to display</h2>
-                    <p>
-                      Try changing your search or filters.
-                    </p>
+                    <p>Try changing your search or filters.</p>
                   </div>
                 )}
               </section>
@@ -510,10 +455,7 @@ function Home() {
                   const saved = isWishlisted(propertyId);
 
                   return (
-                    <article
-                      key={propertyId}
-                      className="property-card"
-                    >
+                    <article key={propertyId} className="property-card">
                       <div className="property-image-container">
                         <button
                           type="button"
@@ -538,14 +480,10 @@ function Home() {
                           }
                           onClick={() => toggleWishlist(property)}
                           aria-label={
-                            saved
-                              ? "Remove from wishlist"
-                              : "Add to wishlist"
+                            saved ? "Remove from wishlist" : "Add to wishlist"
                           }
                           title={
-                            saved
-                              ? "Remove from wishlist"
-                              : "Add to wishlist"
+                            saved ? "Remove from wishlist" : "Add to wishlist"
                           }
                         >
                           <FiHeart />
@@ -596,10 +534,7 @@ function Home() {
 
                         <p className="property-price">
                           <strong>
-                            ₹
-                            {Number(property.price).toLocaleString(
-                              "en-IN"
-                            )}
+                            ₹{Number(property.price).toLocaleString("en-IN")}
                           </strong>
 
                           <span> / night</span>
@@ -619,9 +554,7 @@ function Home() {
               <div className="empty-state">
                 <FiSearch />
                 <h2>No properties found</h2>
-                <p>
-                  Try another destination or adjust your filters.
-                </p>
+                <p>Try another destination or adjust your filters.</p>
 
                 <button
                   type="button"

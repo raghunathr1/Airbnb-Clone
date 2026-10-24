@@ -8,10 +8,6 @@ const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// ==========================================
-// GENERATE JWT TOKEN
-// ==========================================
-
 const generateToken = (user) => {
   if (!process.env.JWT_SECRET) {
     throw new Error("JWT_SECRET is missing from the .env file");
@@ -26,12 +22,6 @@ const generateToken = (user) => {
     { expiresIn: "7d" }
   );
 };
-
-// ==========================================
-// SIGNUP
-// POST /api/auth/signup
-// Public route
-// ==========================================
 
 router.post("/signup", async (req, res) => {
   try {
@@ -98,8 +88,7 @@ router.post("/signup", async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    // Public signup always uses the User model's default role.
-    // Never accept role from the request body.
+    // Use the User model's default role; never accept a role from public signup.
     const user = await User.create({
       name: normalizedName,
       email: normalizedEmail,
@@ -143,12 +132,6 @@ router.post("/signup", async (req, res) => {
     });
   }
 });
-
-// ==========================================
-// LOGIN
-// POST /api/auth/login
-// Public route
-// ==========================================
 
 router.post("/login", async (req, res) => {
   try {
@@ -222,19 +205,12 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// ==========================================
-// CHANGE USER ROLE
-// PATCH /api/auth/users/:id/role
-// Admin only
-// ==========================================
-
 router.patch(
   "/users/:id/role",
   authMiddleware,
   async (req, res) => {
     try {
-      // Read the admin's current role from the database.
-      // Do not trust a role sent by the client.
+      // Verify the admin's role from the database instead of trusting client data.
       const admin = await User.findById(
         req.user.userId
       ).select("_id role");
@@ -256,8 +232,7 @@ router.patch(
         });
       }
 
-      // This endpoint can assign user or host.
-      // It cannot grant admin privileges.
+      // Allow user or host roles, but never admin privileges.
       if (!["user", "host"].includes(role)) {
         return res.status(400).json({
           success: false,
@@ -265,7 +240,7 @@ router.patch(
         });
       }
 
-      // Prevent accidental self-demotion by an admin.
+      // Prevent an admin from changing their own role.
       if (id === admin._id.toString()) {
         return res.status(400).json({
           success: false,
@@ -282,7 +257,7 @@ router.patch(
         });
       }
 
-      // Do not use this endpoint to alter another admin account.
+      // Do not allow this endpoint to change another admin's role.
       if (targetUser.role === "admin") {
         return res.status(403).json({
           success: false,

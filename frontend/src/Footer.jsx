@@ -11,9 +11,7 @@ function Footer() {
         </Link>
       </div>
 
-      <p>
-        © {new Date().getFullYear()} StayFinder. All rights reserved.
-      </p>
+      <p>© {new Date().getFullYear()} StayFinder. All rights reserved.</p>
 
       <div className="footer-links">
         <Link to="/">Explore stays</Link>

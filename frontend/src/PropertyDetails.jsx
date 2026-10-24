@@ -1,11 +1,5 @@
-
 import { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  Link,
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { FaAirbnb } from "react-icons/fa";
 import {
@@ -43,9 +37,7 @@ const calculateNights = (checkIn, checkOut) => {
   const start = new Date(`${checkIn}T00:00:00`);
   const end = new Date(`${checkOut}T00:00:00`);
 
-  return Math.round(
-    (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
-  );
+  return Math.round((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
 };
 
 const readStoredUser = () => {
@@ -66,9 +58,7 @@ const readStoredUser = () => {
 };
 
 const getStoredToken = () =>
-  localStorage.getItem("token") ||
-  localStorage.getItem("airbnb-token") ||
-  "";
+  localStorage.getItem("token") || localStorage.getItem("airbnb-token") || "";
 
 const clearAuthStorage = () => {
   localStorage.removeItem("token");
@@ -95,17 +85,14 @@ function PropertyDetails() {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState("1");
-  const [guestName, setGuestName] = useState(
-    currentUser?.name || ""
-  );
+  const [guestName, setGuestName] = useState(currentUser?.name || "");
 
   const [bookingLoading, setBookingLoading] = useState(false);
   const [bookingMessage, setBookingMessage] = useState("");
   const [bookingError, setBookingError] = useState("");
 
   const [availability, setAvailability] = useState(null);
-  const [availabilityLoading, setAvailabilityLoading] =
-    useState(false);
+  const [availabilityLoading, setAvailabilityLoading] = useState(false);
   const [availabilityError, setAvailabilityError] = useState("");
 
   const [reviews, setReviews] = useState([]);
@@ -120,50 +107,49 @@ function PropertyDetails() {
   const [reviewMessage, setReviewMessage] = useState("");
 
   // Fetch property details.
-  const fetchProperty = useCallback(async (signal) => {
-    if (!id) {
-      setPropertyError("Property ID is missing.");
-      setLoading(false);
-      return;
-    }
-
-    setLoading(true);
-    setPropertyError("");
-
-    try {
-      const response = await axios.get(
-        `${API_URL}/listings/${id}`,
-        { signal }
-      );
-
-      const fetchedProperty = response.data.listing;
-
-      if (!fetchedProperty) {
-        setProperty(null);
-        setPropertyError("Property not found.");
-        return;
-      }
-
-      setProperty(fetchedProperty);
-    } catch (error) {
-      if (
-        error.code === "ERR_CANCELED" ||
-        error.name === "CanceledError"
-      ) {
-        return;
-      }
-
-      setProperty(null);
-      setPropertyError(
-        error.response?.data?.message ||
-          "Unable to load property details. Please try again."
-      );
-    } finally {
-      if (!signal?.aborted) {
+  const fetchProperty = useCallback(
+    async (signal) => {
+      if (!id) {
+        setPropertyError("Property ID is missing.");
         setLoading(false);
+        return;
       }
-    }
-  }, [id]);
+
+      setLoading(true);
+      setPropertyError("");
+
+      try {
+        const response = await axios.get(`${API_URL}/listings/${id}`, {
+          signal,
+        });
+
+        const fetchedProperty = response.data.listing;
+
+        if (!fetchedProperty) {
+          setProperty(null);
+          setPropertyError("Property not found.");
+          return;
+        }
+
+        setProperty(fetchedProperty);
+      } catch (error) {
+        if (error.code === "ERR_CANCELED" || error.name === "CanceledError") {
+          return;
+        }
+
+        setProperty(null);
+        setPropertyError(
+          error.response?.data?.message ||
+            "Unable to load property details. Please try again.",
+        );
+      } finally {
+        if (!signal?.aborted) {
+          setLoading(false);
+        }
+      }
+    },
+    [id],
+  );
 
   useEffect(() => {
     const controller = new AbortController();
@@ -174,67 +160,58 @@ function PropertyDetails() {
   }, [fetchProperty]);
 
   // Fetch reviews and ratings.
-  const fetchReviews = useCallback(async (signal) => {
-    if (!id) {
-      setReviews([]);
-      setAverageRating(0);
-      setTotalReviews(0);
-      setReviewsLoading(false);
-      return;
-    }
-
-    setReviewsLoading(true);
-
-    try {
-      const response = await axios.get(
-        `${API_URL}/reviews/${id}`,
-        { signal }
-      );
-
-      const fetchedReviews = Array.isArray(response.data?.reviews)
-        ? response.data.reviews
-        : [];
-
-      const calculatedAverage =
-        fetchedReviews.length > 0
-          ? fetchedReviews.reduce(
-              (sum, review) =>
-                sum + Number(review.rating || 0),
-              0
-            ) / fetchedReviews.length
-          : 0;
-
-      const serverAverage =
-        response.data.averageRating ??
-        response.data.average;
-
-      const rating =
-        serverAverage != null
-          ? Number(serverAverage)
-          : calculatedAverage;
-
-      setReviews(fetchedReviews);
-      setAverageRating(
-        Number.isFinite(rating) ? rating : 0
-      );
-      setTotalReviews(
-        response.data.count ?? fetchedReviews.length
-      );
-    } catch (error) {
-      if (
-        error.code === "ERR_CANCELED" ||
-        error.name === "CanceledError"
-      ) {
+  const fetchReviews = useCallback(
+    async (signal) => {
+      if (!id) {
+        setReviews([]);
+        setAverageRating(0);
+        setTotalReviews(0);
+        setReviewsLoading(false);
         return;
       }
 
-      console.error("Fetch reviews error:", error);
-    } finally {
-      if (!signal?.aborted) {
-        setReviewsLoading(false);
+      setReviewsLoading(true);
+
+      try {
+        const response = await axios.get(`${API_URL}/reviews/${id}`, {
+          signal,
+        });
+
+        const fetchedReviews = Array.isArray(response.data?.reviews)
+          ? response.data.reviews
+          : [];
+
+        const calculatedAverage =
+          fetchedReviews.length > 0
+            ? fetchedReviews.reduce(
+                (sum, review) => sum + Number(review.rating || 0),
+                0,
+              ) / fetchedReviews.length
+            : 0;
+
+        const serverAverage =
+          response.data.averageRating ?? response.data.average;
+
+        const rating =
+          serverAverage != null ? Number(serverAverage) : calculatedAverage;
+
+        setReviews(fetchedReviews);
+        setAverageRating(Number.isFinite(rating) ? rating : 0);
+        setTotalReviews(response.data.count ?? fetchedReviews.length);
+      } catch (error) {
+        if (error.code === "ERR_CANCELED" || error.name === "CanceledError") {
+          return;
+        }
+
+        console.error("Fetch reviews error:", error);
+      } finally {
+        if (!signal?.aborted) {
+          setReviewsLoading(false);
+        }
       }
-    }
-  }, [id]);
+    },
+    [id],
+  );
 
   useEffect(() => {
     const controller = new AbortController();
@@ -249,10 +226,7 @@ function PropertyDetails() {
     const controller = new AbortController();
 
     const validDates =
-      checkIn &&
-      checkOut &&
-      checkOut > checkIn &&
-      checkIn >= getTodayDate();
+      checkIn && checkOut && checkOut > checkIn && checkIn >= getTodayDate();
 
     if (!id || !validDates) {
       setAvailability(null);
@@ -273,22 +247,19 @@ function PropertyDetails() {
           {
             params: { checkIn, checkOut },
             signal: controller.signal,
-          }
+          },
         );
 
         setAvailability(response.data.available === true);
       } catch (error) {
-        if (
-          error.code === "ERR_CANCELED" ||
-          error.name === "CanceledError"
-        ) {
+        if (error.code === "ERR_CANCELED" || error.name === "CanceledError") {
           return;
         }
 
         setAvailability(null);
         setAvailabilityError(
           error.response?.data?.message ||
-            "Availability could not be checked. The server will validate your booking."
+            "Availability could not be checked. The server will validate your booking.",
         );
       } finally {
         if (!controller.signal.aborted) {
@@ -304,7 +275,7 @@ function PropertyDetails() {
 
   const nights = useMemo(
     () => calculateNights(checkIn, checkOut),
-    [checkIn, checkOut]
+    [checkIn, checkOut],
   );
 
   const pricePerNight = Number(property?.price) || 0;
@@ -330,9 +301,7 @@ function PropertyDetails() {
     }
 
     if (!guestName.trim() || guestName.trim().length < 2) {
-      setBookingError(
-        "Please enter a guest name with at least 2 characters."
-      );
+      setBookingError("Please enter a guest name with at least 2 characters.");
       return;
     }
 
@@ -347,42 +316,32 @@ function PropertyDetails() {
     }
 
     if (checkOut <= checkIn) {
-      setBookingError(
-        "Check-out date must be after check-in date."
-      );
+      setBookingError("Check-out date must be after check-in date.");
       return;
     }
 
     const guestCount = Number(guests);
 
-    if (
-      !Number.isInteger(guestCount) ||
-      guestCount < 1
-    ) {
+    if (!Number.isInteger(guestCount) || guestCount < 1) {
       setBookingError("Please select a valid number of guests.");
       return;
     }
 
-    if (
-      property.guests != null &&
-      guestCount > Number(property.guests)
-    ) {
+    if (property.guests != null && guestCount > Number(property.guests)) {
       setBookingError(
-        `This property allows a maximum of ${property.guests} guests.`
+        `This property allows a maximum of ${property.guests} guests.`,
       );
       return;
     }
 
     if (availabilityLoading) {
-      setBookingError(
-        "Please wait while we check availability."
-      );
+      setBookingError("Please wait while we check availability.");
       return;
     }
 
     if (availability === false) {
       setBookingError(
-        "These dates are unavailable. Please select different dates."
+        "These dates are unavailable. Please select different dates.",
       );
       return;
     }
@@ -403,12 +362,11 @@ function PropertyDetails() {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       setBookingMessage(
-        response.data.message ||
-          "Your booking was created successfully."
+        response.data.message || "Your booking was created successfully.",
       );
 
       setBookingError("");
@@ -425,8 +383,7 @@ function PropertyDetails() {
       }
 
       setBookingError(
-        error.response?.data?.message ||
-          "Booking failed. Please try again."
+        error.response?.data?.message || "Booking failed. Please try again.",
       );
     } finally {
       setBookingLoading(false);
@@ -463,13 +420,8 @@ function PropertyDetails() {
       return;
     }
 
-    if (
-      cleanComment.length < 5 ||
-      cleanComment.length > 1000
-    ) {
-      setReviewError(
-        "Your review must contain between 5 and 1000 characters."
-      );
+    if (cleanComment.length < 5 || cleanComment.length > 1000) {
+      setReviewError("Your review must contain between 5 and 1000 characters.");
       return;
     }
 
@@ -487,7 +439,7 @@ function PropertyDetails() {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       if (response.data.averageRating != null) {
@@ -504,14 +456,10 @@ function PropertyDetails() {
       setReviewRating(5);
 
       setReviewMessage(
-        response.data.message ||
-          "Your review was submitted successfully."
+        response.data.message || "Your review was submitted successfully.",
       );
 
-      await Promise.all([
-        fetchReviews(),
-        fetchProperty(),
-      ]);
+      await Promise.all([fetchReviews(), fetchProperty()]);
     } catch (error) {
       if (error.response?.status === 401) {
         clearAuthStorage();
@@ -525,7 +473,7 @@ function PropertyDetails() {
 
       setReviewError(
         error.response?.data?.message ||
-          "Could not submit your review. Please try again."
+          "Could not submit your review. Please try again.",
       );
     } finally {
       setReviewLoading(false);
@@ -564,10 +512,7 @@ function PropertyDetails() {
         <div className="pd-state pd-error-state">
           <h2>Property not available</h2>
 
-          <p>
-            {propertyError ||
-              "We could not find this property."}
-          </p>
+          <p>{propertyError || "We could not find this property."}</p>
 
           <Link to="/" className="pd-primary-link">
             <FiArrowLeft /> Back to properties
@@ -602,9 +547,7 @@ function PropertyDetails() {
 
         <section className="pd-title-section">
           <div className="pd-title-copy">
-            <p className="pd-category">
-              {property.category || "Property"}
-            </p>
+            <p className="pd-category">{property.category || "Property"}</p>
 
             <h1>{property.title}</h1>
 
@@ -616,13 +559,10 @@ function PropertyDetails() {
 
               <span className="pd-summary-rating">
                 <FiStar />
-                {averageRating > 0
-                  ? averageRating.toFixed(1)
-                  : "New"}
+                {averageRating > 0 ? averageRating.toFixed(1) : "New"}
 
                 <span>
-                  ({totalReviews}{" "}
-                  {totalReviews === 1 ? "review" : "reviews"})
+                  ({totalReviews} {totalReviews === 1 ? "review" : "reviews"})
                 </span>
               </span>
             </div>
@@ -639,9 +579,7 @@ function PropertyDetails() {
               onClick={() => toggleWishlist(property)}
             >
               <FiHeart />
-              {wishlisted
-                ? "Saved to wishlist"
-                : "Save to wishlist"}
+              {wishlisted ? "Saved to wishlist" : "Save to wishlist"}
             </button>
           </div>
         </section>
@@ -663,9 +601,7 @@ function PropertyDetails() {
               <FiHome />
               <span>
                 {property.bedrooms}{" "}
-                {Number(property.bedrooms) === 1
-                  ? "bedroom"
-                  : "bedrooms"}
+                {Number(property.bedrooms) === 1 ? "bedroom" : "bedrooms"}
               </span>
             </div>
 
@@ -673,9 +609,7 @@ function PropertyDetails() {
               <FiUsers />
               <span>
                 Up to {property.guests}{" "}
-                {Number(property.guests) === 1
-                  ? "guest"
-                  : "guests"}
+                {Number(property.guests) === 1 ? "guest" : "guests"}
               </span>
             </div>
 
@@ -685,9 +619,7 @@ function PropertyDetails() {
             </div>
 
             <div className="pd-gallery-price">
-              <strong>
-                ₹{pricePerNight.toLocaleString("en-IN")}
-              </strong>
+              <strong>₹{pricePerNight.toLocaleString("en-IN")}</strong>
               <span>per night</span>
             </div>
           </div>
@@ -699,15 +631,11 @@ function PropertyDetails() {
               <div className="pd-section-heading">
                 <div>
                   <h2>About this stay</h2>
-                  <p>
-                    Everything you need to know before booking.
-                  </p>
+                  <p>Everything you need to know before booking.</p>
                 </div>
               </div>
 
-              <p className="pd-description">
-                {property.description}
-              </p>
+              <p className="pd-description">{property.description}</p>
 
               <div className="pd-feature-grid">
                 <div className="pd-feature">
@@ -752,9 +680,7 @@ function PropertyDetails() {
               <div className="pd-section-heading">
                 <div>
                   <h2>Choose your dates</h2>
-                  <p>
-                    Check availability before making a reservation.
-                  </p>
+                  <p>Check availability before making a reservation.</p>
                 </div>
               </div>
 
@@ -818,13 +744,10 @@ function PropertyDetails() {
                       {
                         length: Math.max(
                           1,
-                          Math.min(
-                            20,
-                            Number(property.guests) || 1
-                          )
+                          Math.min(20, Number(property.guests) || 1),
                         ),
                       },
-                      (_, index) => index + 1
+                      (_, index) => index + 1,
                     ).map((count) => (
                       <option key={count} value={count}>
                         {count} {count === 1 ? "guest" : "guests"}
@@ -841,13 +764,12 @@ function PropertyDetails() {
                 </div>
               )}
 
-              {!availabilityLoading &&
-                availability === true && (
-                  <div className="pd-status pd-status-success">
-                    <FiCheckCircle />
-                    These dates are available.
-                  </div>
-                )}
+              {!availabilityLoading && availability === true && (
+                <div className="pd-status pd-status-success">
+                  <FiCheckCircle />
+                  These dates are available.
+                </div>
+              )}
 
               {!availabilityLoading &&
                 availability === false &&
@@ -855,8 +777,8 @@ function PropertyDetails() {
                 checkOut &&
                 checkOut > checkIn && (
                   <div className="pd-status pd-status-error">
-                    These dates are not available. Please choose
-                    different dates.
+                    These dates are not available. Please choose different
+                    dates.
                   </div>
                 )}
 
@@ -866,30 +788,23 @@ function PropertyDetails() {
                 </div>
               )}
 
-              {checkIn &&
-                checkOut &&
-                checkOut > checkIn && (
-                  <div className="pd-price-breakdown">
-                    <div>
-                      <span>
-                        ₹{pricePerNight.toLocaleString("en-IN")} ×{" "}
-                        {nights}{" "}
-                        {nights === 1 ? "night" : "nights"}
-                      </span>
+              {checkIn && checkOut && checkOut > checkIn && (
+                <div className="pd-price-breakdown">
+                  <div>
+                    <span>
+                      ₹{pricePerNight.toLocaleString("en-IN")} × {nights}{" "}
+                      {nights === 1 ? "night" : "nights"}
+                    </span>
 
-                      <strong>
-                        ₹{totalPrice.toLocaleString("en-IN")}
-                      </strong>
-                    </div>
-
-                    <div className="pd-total-row">
-                      <span>Total before any additional charges</span>
-                      <strong>
-                        ₹{totalPrice.toLocaleString("en-IN")}
-                      </strong>
-                    </div>
+                    <strong>₹{totalPrice.toLocaleString("en-IN")}</strong>
                   </div>
-                )}
+
+                  <div className="pd-total-row">
+                    <span>Total before any additional charges</span>
+                    <strong>₹{totalPrice.toLocaleString("en-IN")}</strong>
+                  </div>
+                </div>
+              )}
             </section>
 
             <section className="pd-info-card pd-reviews-section">
@@ -913,9 +828,7 @@ function PropertyDetails() {
               <div className="pd-rating-overview">
                 <div className="pd-rating-number">
                   <strong>
-                    {averageRating > 0
-                      ? averageRating.toFixed(1)
-                      : "New"}
+                    {averageRating > 0 ? averageRating.toFixed(1) : "New"}
                   </strong>
 
                   <div
@@ -935,8 +848,7 @@ function PropertyDetails() {
                   </div>
 
                   <span>
-                    {totalReviews}{" "}
-                    {totalReviews === 1 ? "review" : "reviews"}
+                    {totalReviews} {totalReviews === 1 ? "review" : "reviews"}
                   </span>
                 </div>
               </div>
@@ -952,9 +864,7 @@ function PropertyDetails() {
                     className="pd-review-form"
                     onSubmit={handleReviewSubmit}
                   >
-                    <label htmlFor="reviewRating">
-                      Your rating
-                    </label>
+                    <label htmlFor="reviewRating">Your rating</label>
 
                     <div className="pd-rating-selector">
                       {[1, 2, 3, 4, 5].map((star) => (
@@ -977,16 +887,12 @@ function PropertyDetails() {
                       <span>{reviewRating} out of 5</span>
                     </div>
 
-                    <label htmlFor="reviewComment">
-                      Your review
-                    </label>
+                    <label htmlFor="reviewComment">Your review</label>
 
                     <textarea
                       id="reviewComment"
                       value={reviewComment}
-                      onChange={(event) =>
-                        setReviewComment(event.target.value)
-                      }
+                      onChange={(event) => setReviewComment(event.target.value)}
                       placeholder="What did you like about this stay?"
                       minLength={5}
                       maxLength={1000}
@@ -1021,9 +927,7 @@ function PropertyDetails() {
                       className="pd-primary-button"
                       disabled={reviewLoading}
                     >
-                      {reviewLoading
-                        ? "Submitting..."
-                        : "Submit review"}
+                      {reviewLoading ? "Submitting..." : "Submit review"}
                     </button>
                   </form>
                 ) : (
@@ -1043,23 +947,16 @@ function PropertyDetails() {
 
               <div className="pd-review-list">
                 {reviewsLoading ? (
-                  <p className="pd-muted-text">
-                    Loading reviews...
-                  </p>
+                  <p className="pd-muted-text">Loading reviews...</p>
                 ) : reviews.length === 0 ? (
                   <div className="pd-no-reviews">
                     <FiMessageSquare />
                     <h3>No reviews yet</h3>
-                    <p>
-                      Be the first guest to share your experience.
-                    </p>
+                    <p>Be the first guest to share your experience.</p>
                   </div>
                 ) : (
                   reviews.map((review) => (
-                    <article
-                      className="pd-review-card"
-                      key={review._id}
-                    >
+                    <article className="pd-review-card" key={review._id}>
                       <div className="pd-review-top">
                         <div className="pd-review-avatar">
                           {(review.reviewerName || "G")
@@ -1069,19 +966,18 @@ function PropertyDetails() {
                         </div>
 
                         <div className="pd-review-author">
-                          <strong>
-                            {review.reviewerName || "Guest"}
-                          </strong>
+                          <strong>{review.reviewerName || "Guest"}</strong>
 
                           <span>
                             {review.createdAt
-                              ? new Date(
-                                  review.createdAt
-                                ).toLocaleDateString("en-IN", {
-                                  day: "numeric",
-                                  month: "short",
-                                  year: "numeric",
-                                })
+                              ? new Date(review.createdAt).toLocaleDateString(
+                                  "en-IN",
+                                  {
+                                    day: "numeric",
+                                    month: "short",
+                                    year: "numeric",
+                                  },
+                                )
                               : ""}
                           </span>
                         </div>
@@ -1092,9 +988,7 @@ function PropertyDetails() {
                         </div>
                       </div>
 
-                      <p className="pd-review-comment">
-                        {review.comment}
-                      </p>
+                      <p className="pd-review-comment">{review.comment}</p>
                     </article>
                   ))
                 )}
@@ -1105,35 +999,25 @@ function PropertyDetails() {
           <aside className="pd-booking-column">
             <section className="pd-booking-card">
               <div className="pd-booking-price">
-                <strong>
-                  ₹{pricePerNight.toLocaleString("en-IN")}
-                </strong>
+                <strong>₹{pricePerNight.toLocaleString("en-IN")}</strong>
                 <span>/ night</span>
               </div>
 
               <div className="pd-booking-rating">
                 <FiStar />
                 <strong>
-                  {averageRating > 0
-                    ? averageRating.toFixed(1)
-                    : "New"}
+                  {averageRating > 0 ? averageRating.toFixed(1) : "New"}
                 </strong>
 
                 <span>
-                  ({totalReviews}{" "}
-                  {totalReviews === 1 ? "review" : "reviews"})
+                  ({totalReviews} {totalReviews === 1 ? "review" : "reviews"})
                 </span>
               </div>
 
-              <form
-                className="pd-booking-form"
-                onSubmit={handleBooking}
-              >
+              <form className="pd-booking-form" onSubmit={handleBooking}>
                 <div className="pd-booking-date-fields">
                   <div className="pd-field">
-                    <label htmlFor="bookingCheckIn">
-                      Check-in
-                    </label>
+                    <label htmlFor="bookingCheckIn">Check-in</label>
 
                     <input
                       id="bookingCheckIn"
@@ -1156,9 +1040,7 @@ function PropertyDetails() {
                   </div>
 
                   <div className="pd-field">
-                    <label htmlFor="bookingCheckOut">
-                      Check-out
-                    </label>
+                    <label htmlFor="bookingCheckOut">Check-out</label>
 
                     <input
                       id="bookingCheckOut"
@@ -1181,21 +1063,16 @@ function PropertyDetails() {
                   <select
                     id="bookingGuests"
                     value={guests}
-                    onChange={(event) =>
-                      setGuests(event.target.value)
-                    }
+                    onChange={(event) => setGuests(event.target.value)}
                   >
                     {Array.from(
                       {
                         length: Math.max(
                           1,
-                          Math.min(
-                            20,
-                            Number(property.guests) || 1
-                          )
+                          Math.min(20, Number(property.guests) || 1),
                         ),
                       },
-                      (_, index) => index + 1
+                      (_, index) => index + 1,
                     ).map((count) => (
                       <option key={count} value={count}>
                         {count} {count === 1 ? "guest" : "guests"}
@@ -1213,9 +1090,7 @@ function PropertyDetails() {
                     minLength={2}
                     maxLength={100}
                     value={guestName}
-                    onChange={(event) =>
-                      setGuestName(event.target.value)
-                    }
+                    onChange={(event) => setGuestName(event.target.value)}
                     placeholder="Enter guest name"
                     required
                   />
@@ -1238,9 +1113,7 @@ function PropertyDetails() {
                     <FiCheckCircle />
                     {bookingMessage}
 
-                    <Link to="/my-bookings">
-                      View my bookings
-                    </Link>
+                    <Link to="/my-bookings">View my bookings</Link>
                   </div>
                 )}
 
@@ -1264,20 +1137,18 @@ function PropertyDetails() {
 
                 <p className="pd-booking-note">
                   <FiCheckCircle />
-                  You will be charged only if your booking is
-                  successfully processed by the backend.
+                  You will be charged only if your booking is successfully
+                  processed by the backend.
                 </p>
 
                 {nights > 0 && (
                   <div className="pd-booking-total">
                     <span>
-                      ₹{pricePerNight.toLocaleString("en-IN")} ×{" "}
-                      {nights} {nights === 1 ? "night" : "nights"}
+                      ₹{pricePerNight.toLocaleString("en-IN")} × {nights}{" "}
+                      {nights === 1 ? "night" : "nights"}
                     </span>
 
-                    <strong>
-                      ₹{totalPrice.toLocaleString("en-IN")}
-                    </strong>
+                    <strong>₹{totalPrice.toLocaleString("en-IN")}</strong>
                   </div>
                 )}
               </form>
@@ -1288,8 +1159,8 @@ function PropertyDetails() {
               <p>
                 <strong>Plan your stay</strong>
                 <span>
-                  Review the property details and selected dates
-                  before reserving.
+                  Review the property details and selected dates before
+                  reserving.
                 </span>
               </p>
             </div>
@@ -1303,10 +1174,7 @@ function PropertyDetails() {
             <FaAirbnb /> StayFinder
           </Link>
 
-          <p>
-            © {new Date().getFullYear()} StayFinder. All rights
-            reserved.
-          </p>
+          <p>© {new Date().getFullYear()} StayFinder. All rights reserved.</p>
 
           <div>
             <Link to="/">Explore</Link>

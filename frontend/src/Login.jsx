@@ -1,18 +1,8 @@
-
 import { useState } from "react";
-import {
-  Link,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import {
-  FiMail,
-  FiLock,
-  FiLogIn,
-  FiAlertCircle,
-} from "react-icons/fi";
+import { FiMail, FiLock, FiLogIn, FiAlertCircle } from "react-icons/fi";
 
 import "./Auth.css";
 import API_BASE_URL from "./api";
@@ -37,9 +27,7 @@ function Login() {
     typeof requestedPath === "string" &&
     requestedPath.startsWith("/") &&
     !requestedPath.startsWith("//") &&
-    !["/login", "/signup"].includes(
-      requestedPath.split("?")[0].split("#")[0]
-    )
+    !["/login", "/signup"].includes(requestedPath.split("?")[0].split("#")[0])
       ? requestedPath
       : "/";
 
@@ -68,13 +56,10 @@ function Login() {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        `${API_URL}/login`,
-        {
-          email,
-          password,
-        }
-      );
+      const response = await axios.post(`${API_URL}/login`, {
+        email,
+        password,
+      });
 
       let payload = response.data;
 
@@ -91,13 +76,13 @@ function Login() {
 
       if (!token) {
         throw new Error(
-          "Login response did not contain an authentication token."
+          "Login response did not contain an authentication token.",
         );
       }
 
       if (!user || typeof user !== "object") {
         throw new Error(
-          "Login succeeded, but user details were not returned by the API."
+          "Login succeeded, but user details were not returned by the API.",
         );
       }
 
@@ -117,7 +102,7 @@ function Login() {
       setError(
         err.response?.data?.message ||
           err.message ||
-          "Login failed. Please check your credentials and try again."
+          "Login failed. Please check your credentials and try again.",
       );
     } finally {
       setLoading(false);
@@ -181,21 +166,14 @@ function Login() {
             />
           </div>
 
-          <button
-            type="submit"
-            className="auth-submit"
-            disabled={loading}
-          >
+          <button type="submit" className="auth-submit" disabled={loading}>
             {loading ? "Logging in..." : "Log In"}
           </button>
         </form>
 
         <p className="auth-switch">
           Don't have an account?{" "}
-          <Link
-            to="/signup"
-            state={{ from: redirectPath }}
-          >
+          <Link to="/signup" state={{ from: redirectPath }}>
             Sign up
           </Link>
         </p>

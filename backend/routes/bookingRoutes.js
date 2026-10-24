@@ -1,4 +1,3 @@
-
 const express = require("express");
 const mongoose = require("mongoose");
 
@@ -9,9 +8,6 @@ const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// ======================================================
-// HELPER: VALIDATE YYYY-MM-DD DATE
-// ======================================================
 const parseDateOnly = (value) => {
   if (
     typeof value !== "string" ||
@@ -37,9 +33,6 @@ const parseDateOnly = (value) => {
   return date;
 };
 
-// ======================================================
-// HELPER: VALIDATE BOOKING DATES
-// ======================================================
 const getValidatedDates = (checkIn, checkOut) => {
   const checkInDate = parseDateOnly(checkIn);
   const checkOutDate = parseDateOnly(checkOut);
@@ -71,11 +64,6 @@ const getValidatedDates = (checkIn, checkOut) => {
   };
 };
 
-// ======================================================
-// CREATE BOOKING
-// POST /api/bookings
-// Login required
-// ======================================================
 router.post("/", authMiddleware, async (req, res) => {
   try {
     const {
@@ -135,7 +123,6 @@ router.post("/", authMiddleware, async (req, res) => {
 
     const { checkInDate, checkOutDate } = dates;
 
-    // Find the requested property.
     const listing = await Listing.findById(propertyId);
 
     if (!listing) {
@@ -145,7 +132,7 @@ router.post("/", authMiddleware, async (req, res) => {
       });
     }
 
-    // Validate guest capacity.
+    // Ensure the guest count does not exceed the property's capacity.
     if (
       guestCount > Number(listing.guests) ||
       guestCount < 1
@@ -157,10 +144,7 @@ router.post("/", authMiddleware, async (req, res) => {
       });
     }
 
-    // Check overlapping confirmed bookings.
-    // Two bookings overlap when:
-    // existing check-in < requested check-out AND
-    // existing check-out > requested check-in.
+    // Find confirmed bookings that overlap the requested dates.
     const conflictingBooking = await Booking.findOne({
       property: listing._id,
       status: "confirmed",
@@ -176,7 +160,7 @@ router.post("/", authMiddleware, async (req, res) => {
       });
     }
 
-    // Obtain guest email from the authenticated account.
+    // Get the guest's email from the authenticated account.
     const user = await User.findById(
       req.user.userId
     ).select("email");
@@ -188,7 +172,6 @@ router.post("/", authMiddleware, async (req, res) => {
       });
     }
 
-    // Calculate the number of nights.
     const nights = Math.round(
       (checkOutDate.getTime() - checkInDate.getTime()) /
         (1000 * 60 * 60 * 24)
@@ -203,7 +186,6 @@ router.post("/", authMiddleware, async (req, res) => {
 
     const totalPrice = nights * Number(listing.price);
 
-    // Create the booking.
     const booking = await Booking.create({
       property: listing._id,
       guestName: guestName.trim(),
@@ -245,11 +227,6 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
-// ======================================================
-// GET LOGGED-IN USER'S BOOKINGS
-// GET /api/bookings
-// Login required
-// ======================================================
 router.get("/", authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(
@@ -287,11 +264,6 @@ router.get("/", authMiddleware, async (req, res) => {
   }
 });
 
-// ======================================================
-// CANCEL A BOOKING
-// PATCH /api/bookings/:id/cancel
-// Only the booking owner can cancel.
-// ======================================================
 router.patch(
   "/:id/cancel",
   authMiddleware,
@@ -377,11 +349,6 @@ router.patch(
   }
 );
 
-// ======================================================
-// CHECK PROPERTY AVAILABILITY
-// GET /api/bookings/availability/:propertyId
-// Public endpoint
-// ======================================================
 router.get(
   "/availability/:propertyId",
   async (req, res) => {

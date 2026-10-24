@@ -1,4 +1,3 @@
-
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "./Home";
@@ -16,34 +15,19 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<Home />} />
 
-      <Route
-        path="/property/:id"
-        element={<PropertyDetails />}
-      />
+      <Route path="/property/:id" element={<PropertyDetails />} />
 
-      <Route
-        path="/my-bookings"
-        element={<MyBookings />}
-      />
+      <Route path="/my-bookings" element={<MyBookings />} />
 
-      <Route
-        path="/wishlist"
-        element={<Wishlist />}
-      />
+      <Route path="/wishlist" element={<Wishlist />} />
 
       <Route path="/login" element={<Login />} />
 
       <Route path="/signup" element={<Signup />} />
 
-      <Route
-        path="/host-dashboard"
-        element={<HostDashboard />}
-      />
+      <Route path="/host-dashboard" element={<HostDashboard />} />
 
-      <Route
-        path="*"
-        element={<Navigate to="/" replace />}
-      />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

@@ -1,10 +1,5 @@
-
 import { useState } from "react";
-import {
-  Link,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import {
@@ -40,9 +35,7 @@ function Signup() {
     typeof requestedPath === "string" &&
     requestedPath.startsWith("/") &&
     !requestedPath.startsWith("//") &&
-    !["/login", "/signup"].includes(
-      requestedPath.split("?")[0].split("#")[0]
-    )
+    !["/login", "/signup"].includes(requestedPath.split("?")[0].split("#")[0])
       ? requestedPath
       : "/";
 
@@ -66,9 +59,7 @@ function Signup() {
     const confirmPassword = formData.confirmPassword;
 
     if (name.length < 2 || name.length > 50) {
-      setError(
-        "Name must contain between 2 and 50 characters."
-      );
+      setError("Name must contain between 2 and 50 characters.");
       return;
     }
 
@@ -78,9 +69,7 @@ function Signup() {
     }
 
     if (password.length < 8) {
-      setError(
-        "Password must contain at least 8 characters."
-      );
+      setError("Password must contain at least 8 characters.");
       return;
     }
 
@@ -97,14 +86,11 @@ function Signup() {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        `${API_URL}/signup`,
-        {
-          name,
-          email,
-          password,
-        }
-      );
+      const response = await axios.post(`${API_URL}/signup`, {
+        name,
+        email,
+        password,
+      });
 
       let payload = response.data;
 
@@ -121,7 +107,7 @@ function Signup() {
 
       if (!token || !user || typeof user !== "object") {
         throw new Error(
-          "Invalid signup response. Please check the backend signup API."
+          "Invalid signup response. Please check the backend signup API.",
         );
       }
 
@@ -141,7 +127,7 @@ function Signup() {
       setError(
         err.response?.data?.message ||
           err.message ||
-          "Unable to create your account."
+          "Unable to create your account.",
       );
     } finally {
       setLoading(false);
@@ -157,9 +143,7 @@ function Signup() {
 
         <h1>Create an account</h1>
 
-        <p className="auth-subtitle">
-          Join us and discover your next getaway.
-        </p>
+        <p className="auth-subtitle">Join us and discover your next getaway.</p>
 
         {error && (
           <div className="auth-error" role="alert">
@@ -227,9 +211,7 @@ function Signup() {
             />
           </div>
 
-          <label htmlFor="confirmPassword">
-            Confirm password
-          </label>
+          <label htmlFor="confirmPassword">Confirm password</label>
 
           <div className="auth-input-wrapper">
             <FiLock />
@@ -249,21 +231,14 @@ function Signup() {
             />
           </div>
 
-          <button
-            type="submit"
-            className="auth-submit"
-            disabled={loading}
-          >
+          <button type="submit" className="auth-submit" disabled={loading}>
             {loading ? "Creating account..." : "Create Account"}
           </button>
         </form>
 
         <p className="auth-switch">
           Already have an account?{" "}
-          <Link
-            to="/login"
-            state={{ from: redirectPath }}
-          >
+          <Link to="/login" state={{ from: redirectPath }}>
             Log in
           </Link>
         </p>

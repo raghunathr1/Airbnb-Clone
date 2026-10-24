@@ -43,8 +43,8 @@ function Wishlist() {
             <h2>Your wishlist is waiting</h2>
 
             <p>
-              Save properties you love by clicking the heart button
-              on any property card.
+              Save properties you love by clicking the heart button on any
+              property card.
             </p>
 
             <Link to="/" className="wishlist-explore-button">
@@ -77,9 +77,7 @@ function Wishlist() {
 
                 <div className="wishlist-card-content">
                   <div className="wishlist-card-heading">
-                    <h3>
-                      {property.location || "Location unavailable"}
-                    </h3>
+                    <h3>{property.location || "Location unavailable"}</h3>
 
                     <span className="wishlist-rating">
                       <FiStar size={15} />
@@ -94,17 +92,12 @@ function Wishlist() {
                   </p>
 
                   {property.category && (
-                    <p className="wishlist-category">
-                      {property.category}
-                    </p>
+                    <p className="wishlist-category">{property.category}</p>
                   )}
 
                   <p className="wishlist-price">
                     <strong>
-                      ₹
-                      {Number(property.price || 0).toLocaleString(
-                        "en-IN"
-                      )}
+                      ₹{Number(property.price || 0).toLocaleString("en-IN")}
                     </strong>{" "}
                     <span>/ night</span>
                   </p>
@@ -120,9 +113,7 @@ function Wishlist() {
                     <button
                       type="button"
                       className="wishlist-remove-button"
-                      onClick={() =>
-                        removeFromWishlist(property._id)
-                      }
+                      onClick={() => removeFromWishlist(property._id)}
                       aria-label={`Remove ${
                         property.title || "property"
                       } from wishlist`}

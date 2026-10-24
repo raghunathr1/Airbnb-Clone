@@ -1,12 +1,5 @@
-
 import { useEffect, useMemo } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  useMap,
-} from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import { FiMapPin, FiArrowRight } from "react-icons/fi";
 
@@ -75,10 +68,7 @@ function MapAutoFit({ points }) {
   return null;
 }
 
-function PropertyMap({
-  properties = [],
-  onPropertyClick,
-}) {
+function PropertyMap({ properties = [], onPropertyClick }) {
   const mappedProperties = useMemo(() => {
     return properties
       .map((property) => ({
@@ -90,7 +80,7 @@ function PropertyMap({
 
   const points = useMemo(
     () => mappedProperties.map((item) => item.coordinates),
-    [mappedProperties]
+    [mappedProperties],
   );
 
   // Do not display a fake location for properties
@@ -103,9 +93,9 @@ function PropertyMap({
         <h3>Location not available on map</h3>
 
         <p>
-          No matching properties have valid latitude and
-          longitude coordinates yet. Add coordinates from
-          the Host Dashboard to display their map markers.
+          No matching properties have valid latitude and longitude coordinates
+          yet. Add coordinates from the Host Dashboard to display their map
+          markers.
         </p>
       </div>
     );
@@ -119,9 +109,7 @@ function PropertyMap({
 
           <p>
             {mappedProperties.length}{" "}
-            {mappedProperties.length === 1
-              ? "property has"
-              : "properties have"}{" "}
+            {mappedProperties.length === 1 ? "property has" : "properties have"}{" "}
             map coordinates.
           </p>
         </div>
@@ -132,9 +120,7 @@ function PropertyMap({
         center={points[0]}
         zoom={12}
         scrollWheelZoom
-        key={mappedProperties
-          .map(({ property }) => property._id)
-          .join("-")}
+        key={mappedProperties.map(({ property }) => property._id).join("-")}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -144,11 +130,7 @@ function PropertyMap({
         <MapAutoFit points={points} />
 
         {mappedProperties.map(({ property, coordinates }) => (
-          <Marker
-            key={property._id}
-            position={coordinates}
-            icon={propertyIcon}
-          >
+          <Marker key={property._id} position={coordinates} icon={propertyIcon}>
             <Popup>
               <div className="property-map-popup">
                 <strong>{property.title}</strong>
@@ -159,17 +141,14 @@ function PropertyMap({
                 </p>
 
                 <p className="property-map-popup-price">
-                  ₹
-                  {Number(property.price).toLocaleString("en-IN")}
+                  ₹{Number(property.price).toLocaleString("en-IN")}
                   <span> / night</span>
                 </p>
 
                 <button
                   type="button"
                   className="property-map-popup-button"
-                  onClick={() =>
-                    onPropertyClick?.(property._id)
-                  }
+                  onClick={() => onPropertyClick?.(property._id)}
                 >
                   View property <FiArrowRight />
                 </button>
