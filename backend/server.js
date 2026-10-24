@@ -14,8 +14,7 @@ const corsOptions = {
   origin: [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "https://airbnbclone-two-beta.vercel.app",
-    "https://stay-finder-airbn.netlify.app",
+    "https://airbnb-clone-alpha-seven.vercel.app",
   ],
   methods: [
     "GET",
@@ -103,7 +102,7 @@ const startServer = async () => {
 
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
-      console.log("CORS configured for Netlify, Vercel, and local development");
+      console.log("CORS configured for the current Vercel frontend");
     });
   } catch (error) {
     console.error("Failed to start server:", error.message);
